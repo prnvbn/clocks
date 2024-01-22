@@ -27,6 +27,7 @@ require (
 )
 
 // https://github.com/pterm/pterm/issues/618
-// replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.3
+// 
+replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.4
 
-replace github.com/pterm/pterm => /home/prnvbn/opensource/pterm
+// replace github.com/pterm/pterm => /home/prnvbn/opensource/pterm

@@ -16,6 +16,30 @@ const (
 	minMaxHeight = 5
 )
 
+var (
+	colors = []string{
+		"black",
+		"red",
+		"green",
+		"yellow",
+		"blue",
+		"magenta",
+		"cyan",
+		"white",
+	}
+
+	colorToStyle = map[string]*pterm.Style{
+		"black":   pterm.FgBlack.ToStyle(),
+		"red":     pterm.FgRed.ToStyle(),
+		"green":   pterm.FgGreen.ToStyle(),
+		"yellow":  pterm.FgYellow.ToStyle(),
+		"blue":    pterm.FgBlue.ToStyle(),
+		"magenta": pterm.FgMagenta.ToStyle(),
+		"cyan":    pterm.FgCyan.ToStyle(),
+		"white":   pterm.FgWhite.ToStyle(),
+	}
+)
+
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
@@ -62,11 +86,25 @@ var addCmd = &cobra.Command{
 				Show()
 		}
 
-		pterm.Success.Println(selectedTMZs)
+		for _, tz := range selectedTMZs {
+			// TODO? show sample number in an area next to the select menu
+			color, _ := pterm.DefaultInteractiveSelect.
+				WithMaxHeight(h).
+				WithOptions(colors).
+				WithDefaultText("select a color for " + pterm.Bold.Sprint(tz)).
+				WithRenderSelectedOptionFunc(func(s string) string {
+					return colorToStyle[s].
+						Add(*pterm.Bold.ToStyle()).
+						Sprintf("  %s\n", s)
+				}).
+				Show()
 
+			pterm.Success.Println(color + " selected for " + tz)
+		}
 	},
 }
 
 func init() {
+	slices.Sort(colors)
 	rootCmd.AddCommand(addCmd)
 }
