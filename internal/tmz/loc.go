@@ -8,11 +8,10 @@ import (
 type Loc string
 
 func (l Loc) String() string {
-	return fmt.Sprintf("%s %s GMT", string(l), l.GetUTCOffset())
+	return fmt.Sprintf("%s %s UTC", string(l), l.GetUTCOffset())
 }
 
-// func GetTimezoneSs
-
+// GetUTCOffset returns the UTC offset for the given location
 func (l Loc) GetUTCOffset() string {
 	loc, _ := time.LoadLocation(string(l)) // add err check?
 	t := time.Now().In(loc)
