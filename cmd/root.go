@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/prnvbn/clocks/internal/clocks"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
@@ -43,11 +45,29 @@ var (
 			}
 
 			if verbose {
-				err = cfg.PrettyPrint()
-				if err != nil {
-					return err
-				}
+				zerolog.SetGlobalLevel(zerolog.DebugLevel)
+			} else {
+				zerolog.SetGlobalLevel(zerolog.Disabled)
 			}
+
+			log.Debug().Any("config", cfg).Msg("config loaded")
+			if err != nil {
+				return err
+			}
+			return nil
+		},
+		PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
+			yamlBytes, err := yaml.Marshal(cfg)
+			if err != nil {
+				return err
+			}
+			// save yamlBytes to cfgPath
+			err = os.WriteFile(cfgPath, yamlBytes, 0644)
+			if err != nil {
+				return err
+			}
+
+			log.Debug().Any("config", cfg).Msg("config saved")
 			return nil
 		},
 	}

@@ -1,11 +1,9 @@
-dateFormat: 15:04
-
-timezones:
-  - zone: "Asia/Kolkata"
-    heading: New Delhi
-    color: red
-
+dateFormat: "15:04"
 rowSizes:
-  - 2
-  - 3
+- 2
+- 3
+timezones:
+- heading: New Delhi
+  zone: Asia/Kolkata
+  color: red
 centerEachRow: true
