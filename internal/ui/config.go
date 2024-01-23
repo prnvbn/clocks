@@ -20,6 +20,10 @@ type ClockConfig struct {
 	Color   Color    `yaml:"color" json:"color"`
 }
 
+func (c ClockConfig) String() string {
+	return fmt.Sprintf("%s (%s)", c.Heading, c.Zone)
+}
+
 // TODO: validate config
 func (c AppConfig) Validate() error {
 	return nil
@@ -42,6 +46,12 @@ type ClockCfgSet map[ClockConfig]struct{}
 func (s *ClockCfgSet) Add(clockCfgs ...ClockConfig) {
 	for _, clockCfg := range clockCfgs {
 		(*s)[clockCfg] = struct{}{}
+	}
+}
+
+func (s *ClockCfgSet) Remove(clockCfgs ...ClockConfig) {
+	for _, clockCfg := range clockCfgs {
+		delete(*s, clockCfg)
 	}
 }
 

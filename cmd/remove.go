@@ -6,6 +6,7 @@ package cmd
 import (
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
+	"golang.org/x/exp/maps"
 )
 
 // removeCmd represents the remove command
@@ -26,12 +27,9 @@ var (
 				return
 			}
 
-			// zones := make([]tmz.Zone, len(cfg.ClockCfgs))
-			// for i, clockCfg := range cfg.ClockCfgs {
-			// 	zones[i] = clockCfg.Zone
-			// }
+			zones := maps.Keys(cfg.ClockCfgs)
+			_ = zones
 			// selectedZones := ui.SelectZones(zones)
-
 		},
 	}
 )
