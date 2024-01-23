@@ -6,7 +6,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/prnvbn/clocks/internal/clocks"
+	"github.com/prnvbn/clocks/internal/ui"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -21,7 +21,7 @@ var (
 	// flags
 	cfgPath string
 	verbose bool
-	cfg     clocks.Config
+	cfg     ui.Config
 
 	rootCmd = &cobra.Command{
 		Use:   "clocks",
@@ -74,7 +74,7 @@ var (
 )
 
 func run(cmd *cobra.Command, args []string) {
-	clocks.Show(cfg)
+	ui.Show(cfg)
 }
 
 func Execute() {

@@ -1,9 +1,9 @@
-package clocks_test
+package ui_test
 
 import (
 	"testing"
 
-	"github.com/prnvbn/clocks/internal/clocks"
+	"github.com/prnvbn/clocks/internal/ui"
 	"gopkg.in/yaml.v3"
 )
 
@@ -14,24 +14,24 @@ const (
 // test yaml unmarshalling for Color
 func TestColor_UnmarshalYAML(t *testing.T) {
 	var c struct {
-		Test clocks.Color `yaml:"test"`
+		Test ui.Color `yaml:"test"`
 	}
 
 	err := yaml.Unmarshal([]byte(yamlStr), &c)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if c.Test != clocks.Red {
-		t.Fatalf("expected %s, got %s", clocks.Red, c)
+	if c.Test != ui.Red {
+		t.Fatalf("expected %s, got %s", ui.Red, c)
 	}
 }
 
 // test yaml marshalling for Color
 func TestColor_MarshalYAML(t *testing.T) {
 	var c struct {
-		Test clocks.Color `yaml:"test"`
+		Test ui.Color `yaml:"test"`
 	}
-	c.Test = clocks.Red
+	c.Test = ui.Red
 	yamlBytes, err := yaml.Marshal(c)
 	if err != nil {
 		t.Fatal(err)

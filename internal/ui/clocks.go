@@ -1,4 +1,4 @@
-package clocks
+package ui
 
 import (
 	"fmt"
