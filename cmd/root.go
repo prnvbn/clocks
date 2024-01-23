@@ -20,7 +20,7 @@ const (
 var (
 	// flags
 	cfgPath string
-	verbose bool
+	debug   bool
 	cfg     ui.AppConfig
 
 	rootCmd = &cobra.Command{
@@ -37,7 +37,7 @@ var (
 			err = cfg.Validate()
 			must(err)
 
-			if verbose {
+			if debug {
 				zerolog.SetGlobalLevel(zerolog.DebugLevel)
 			} else {
 				zerolog.SetGlobalLevel(zerolog.Disabled)
@@ -77,7 +77,8 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "Config file path, defaults to "+defaultCfgFile)
-	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enables additional logging")
+	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "enables debug logging")
+	_ = rootCmd.PersistentFlags().MarkHidden("debug")
 }
 
 func must(err error) {
