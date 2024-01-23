@@ -39,19 +39,13 @@ var addCmd = &cobra.Command{
 		cntries := maps.Keys(tmz.CountryZonesMap)
 		slices.Sort(cntries)
 
-		_, h, err := term.GetSize(int(os.Stdout.Fd()))
-		if err != nil {
-			h = minMaxHeight
-		}
-		h = int(math.Max(1, float64(h-5)))
-
 		cntryMenuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select countries; you can select the timezones after this ") + pterm.ThemeDefault.SecondaryStyle.Sprint("[type to search]")
 		selectedCntries, _ := pterm.DefaultInteractiveMultiselect.
 			WithOptions(cntries).
 			WithDefaultText(cntryMenuHeading).
 			WithClearAllEnabled(true).
 			WithSelectAllEnabled(false).
-			WithMaxHeight(h).
+			WithMaxHeight(maxHeight()).
 			Show()
 
 		var zones []tmz.Zone
@@ -70,14 +64,14 @@ var addCmd = &cobra.Command{
 				WithDefaultText(tmzMenuHeading).
 				WithClearAllEnabled(true).
 				WithSelectAllEnabled(false).
-				WithMaxHeight(h).
+				WithMaxHeight(maxHeight()).
 				Show()
 		}
 
 		for _, z := range selectedZones {
 			// TODO? show sample number in an area next to the select menu
 			color, _ := pterm.NewGenericInteractiveSelect[clocks.Color]().
-				WithMaxHeight(h).
+				WithMaxHeight(maxHeight()).
 				WithOptions(clocks.Colors).
 				WithDefaultText("Select a color for " + pterm.Bold.Sprint(z)).
 				WithRenderSelectedOptionFunc(func(s string) string {
@@ -99,6 +93,14 @@ var addCmd = &cobra.Command{
 			pterm.Success.Println(color.String() + " selected for " + z.String() + " with name " + result)
 		}
 	},
+}
+
+func maxHeight() int {
+	_, h, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		h = minMaxHeight
+	}
+	return int(math.Max(1, float64(h-5)))
 }
 
 func init() {
