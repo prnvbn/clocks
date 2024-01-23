@@ -4,6 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"github.com/prnvbn/clocks/internal/ui"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/maps"
@@ -27,9 +28,8 @@ var (
 				return
 			}
 
-			zones := maps.Keys(cfg.ClockCfgs)
-			_ = zones
-			// selectedZones := ui.SelectZones(zones)
+			clockCfgs := ui.SelectClockConfigs(maps.Keys(cfg.ClockCfgs))
+			cfg.ClockCfgs.Remove(clockCfgs...)
 		},
 	}
 )
