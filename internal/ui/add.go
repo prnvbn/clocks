@@ -14,13 +14,13 @@ import (
 var (
 	colorToStyle = map[string]*pterm.Style{
 		Black.String():   pterm.FgBlack.ToStyle(),
-		Blue.String():    pterm.FgRed.ToStyle(),
-		Cyan.String():    pterm.FgGreen.ToStyle(),
-		Green.String():   pterm.FgYellow.ToStyle(),
-		Magenta.String(): pterm.FgBlue.ToStyle(),
-		Red.String():     pterm.FgMagenta.ToStyle(),
-		White.String():   pterm.FgCyan.ToStyle(),
-		Yellow.String():  pterm.FgWhite.ToStyle(),
+		Red.String():     pterm.FgRed.ToStyle(),
+		Green.String():   pterm.FgGreen.ToStyle(),
+		Yellow.String():  pterm.FgYellow.ToStyle(),
+		Blue.String():    pterm.FgBlue.ToStyle(),
+		Magenta.String(): pterm.FgMagenta.ToStyle(),
+		Cyan.String():    pterm.FgCyan.ToStyle(),
+		White.String():   pterm.FgWhite.ToStyle(),
 	}
 )
 
@@ -28,7 +28,8 @@ const (
 	minMaxHeight = 5
 )
 
-func AddClocMenu() []ClockConfig {
+// TODO? breakdown further?
+func SelectClocks() []ClockConfig {
 	cntries := maps.Keys(tmz.CountryZonesMap)
 	slices.Sort(cntries)
 
@@ -47,20 +48,7 @@ func AddClocMenu() []ClockConfig {
 		zones = append(zones, cntryToZones...)
 	}
 
-	var selectedZones []tmz.Zone
-	if len(zones) == 1 {
-		selectedZones = append(selectedZones, zones[0])
-	} else {
-		tmzMenuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select the timezones ") + pterm.ThemeDefault.SecondaryStyle.Sprint("[type to search]")
-		selectedZones, _ = pterm.NewGenericInteractiveMultiselect[tmz.Zone]().
-			WithOptions(zones).
-			WithDefaultText(tmzMenuHeading).
-			WithClearAllEnabled(true).
-			WithSelectAllEnabled(false).
-			WithMaxHeight(maxHeight()).
-			Show()
-	}
-
+	selectedZones := SelectZones(zones)
 	var clockCfgs []ClockConfig
 
 	for _, z := range selectedZones {
@@ -89,8 +77,6 @@ func AddClocMenu() []ClockConfig {
 			Color:   color,
 		})
 	}
-
-	pterm.Success.Println("Added", len(clockCfgs), "clocks")
 
 	return clockCfgs
 

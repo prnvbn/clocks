@@ -30,19 +30,12 @@ var (
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			// TODO? graceful error handling
 			yamlBytes, err := os.ReadFile(cfgPath)
-			if err != nil {
-				return err
-			}
+			must(err)
 
 			err = yaml.Unmarshal(yamlBytes, &cfg)
-			if err != nil {
-				return err
-			}
-
+			must(err)
 			err = cfg.Validate()
-			if err != nil {
-				return err
-			}
+			must(err)
 
 			if verbose {
 				zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -50,22 +43,18 @@ var (
 				zerolog.SetGlobalLevel(zerolog.Disabled)
 			}
 
-			log.Debug().Any("config", cfg).Msg("config loaded")
-			if err != nil {
-				return err
-			}
+			log.Debug().Interface("config", cfg).Msg("config loaded")
+			must(err)
+
 			return nil
 		},
 		PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
 			yamlBytes, err := yaml.Marshal(cfg)
-			if err != nil {
-				return err
-			}
+			must(err)
+
 			// save yamlBytes to cfgPath
 			err = os.WriteFile(cfgPath, yamlBytes, 0644)
-			if err != nil {
-				return err
-			}
+			must(err)
 
 			log.Debug().Any("config", cfg).Msg("config saved")
 			return nil
@@ -80,6 +69,8 @@ func run(cmd *cobra.Command, args []string) {
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
+		// TODO? graceful error handling
+		// add recover that gives an option to raise a GH issue
 		os.Exit(1)
 	}
 }
@@ -87,4 +78,10 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "Config file path, defaults to "+defaultCfgFile)
 	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enables additional logging")
+}
+
+func must(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

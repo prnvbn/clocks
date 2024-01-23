@@ -4,6 +4,7 @@ go 1.21.3
 
 require (
 	github.com/pterm/pterm v0.12.75
+	github.com/rs/zerolog v1.31.0
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/exp v0.0.0-20220909182711-5c715a9e8561
 	golang.org/x/term v0.16.0
@@ -23,7 +24,6 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/rs/zerolog v1.31.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/sys v0.16.0 // indirect

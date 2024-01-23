@@ -3,13 +3,7 @@ rowSizes:
 - 2
 - 3
 timezones:
-- heading: New Delhi
+- heading: Kolkata
   zone: Asia/Kolkata
-  color: red
-- heading: Tirane
-  zone: Europe/Tirane
-  color: blue
-- heading: Algiera
-  zone: Africa/Algiers
-  color: green
+  color: magenta
 centerEachRow: true
