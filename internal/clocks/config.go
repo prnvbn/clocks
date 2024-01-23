@@ -1,5 +1,7 @@
 package clocks
 
+import "github.com/prnvbn/clocks/internal/tmz"
+
 type Config struct {
 	DateFmt       string `yaml:"dateFormat"`
 	RowSizes      []int  `yaml:"rowSizes"`
@@ -8,9 +10,9 @@ type Config struct {
 }
 
 type TMZ struct {
-	Name     string `yaml:"name"`
-	Timezone string `yaml:"timezone"` // enum?
-	Color    string `yaml:"color"`    // enum?
+	Name     string   `yaml:"name"`
+	Timezone tmz.Zone `yaml:"timezone"`
+	Color    Color    `yaml:"color"`
 }
 
 // TODO: validate config
