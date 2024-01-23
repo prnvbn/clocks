@@ -8,6 +8,7 @@ require (
 	golang.org/x/exp v0.0.0-20220909182711-5c715a9e8561
 	golang.org/x/term v0.16.0
 	gopkg.in/yaml.v2 v2.2.4
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

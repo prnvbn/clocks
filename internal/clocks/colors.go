@@ -35,3 +35,19 @@ func (c Color) String() string {
 func ColorFromString(s string) Color {
 	return stringToColor[s]
 }
+
+func (c Color) MarshalYAML() (interface{}, error) {
+	return c.String(), nil
+}
+
+// unmarschalYAML
+func (c *Color) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var s string
+	err := unmarshal(&s)
+	if err != nil {
+		return err
+	}
+
+	*c = ColorFromString(s)
+	return nil
+}
