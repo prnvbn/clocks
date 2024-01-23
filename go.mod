@@ -29,5 +29,5 @@ require (
 // replace github.com/pterm/pterm => /home/prnvbn/opensource/pterm
 
 // https://github.com/pterm/pterm/issues/618
-//
-replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.6
+// and other stuff...
+replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.7

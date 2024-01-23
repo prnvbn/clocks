@@ -11,7 +11,6 @@ type TMZ struct {
 	Name     string `yaml:"name"`
 	Timezone string `yaml:"timezone"` // enum?
 	Color    string `yaml:"color"`    // enum?
-	DateFmt  string `yaml:"dateFormat"`
 }
 
 // TODO: validate config

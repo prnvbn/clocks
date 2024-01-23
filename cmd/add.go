@@ -5,6 +5,7 @@ import (
 	"os"
 	"slices"
 
+	"github.com/prnvbn/clocks/internal/clocks"
 	"github.com/prnvbn/clocks/internal/tmz"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
@@ -17,26 +18,15 @@ const (
 )
 
 var (
-	colors = []string{
-		"black",
-		"red",
-		"green",
-		"yellow",
-		"blue",
-		"magenta",
-		"cyan",
-		"white",
-	}
-
 	colorToStyle = map[string]*pterm.Style{
-		"black":   pterm.FgBlack.ToStyle(),
-		"red":     pterm.FgRed.ToStyle(),
-		"green":   pterm.FgGreen.ToStyle(),
-		"yellow":  pterm.FgYellow.ToStyle(),
-		"blue":    pterm.FgBlue.ToStyle(),
-		"magenta": pterm.FgMagenta.ToStyle(),
-		"cyan":    pterm.FgCyan.ToStyle(),
-		"white":   pterm.FgWhite.ToStyle(),
+		clocks.Black.String():   pterm.FgBlack.ToStyle(),
+		clocks.Blue.String():    pterm.FgRed.ToStyle(),
+		clocks.Cyan.String():    pterm.FgGreen.ToStyle(),
+		clocks.Green.String():   pterm.FgYellow.ToStyle(),
+		clocks.Magenta.String(): pterm.FgBlue.ToStyle(),
+		clocks.Red.String():     pterm.FgMagenta.ToStyle(),
+		clocks.White.String():   pterm.FgCyan.ToStyle(),
+		clocks.Yellow.String():  pterm.FgWhite.ToStyle(),
 	}
 )
 
@@ -86,9 +76,9 @@ var addCmd = &cobra.Command{
 
 		for _, z := range selectedZones {
 			// TODO? show sample number in an area next to the select menu
-			color, _ := pterm.DefaultInteractiveSelect.
+			color, _ := pterm.NewGenericInteractiveSelect[clocks.Color]().
 				WithMaxHeight(h).
-				WithOptions(colors).
+				WithOptions(clocks.Colors).
 				WithDefaultText("Select a color for " + pterm.Bold.Sprint(z)).
 				WithRenderSelectedOptionFunc(func(s string) string {
 					return colorToStyle[s].
@@ -106,12 +96,11 @@ var addCmd = &cobra.Command{
 
 			pterm.Println()
 			pterm.Info.Printfln("You answered: %s", result)
-			pterm.Success.Println(color + " selected for " + z.String() + " with name " + result)
+			pterm.Success.Println(color.String() + " selected for " + z.String() + " with name " + result)
 		}
 	},
 }
 
 func init() {
-	slices.Sort(colors)
 	rootCmd.AddCommand(addCmd)
 }

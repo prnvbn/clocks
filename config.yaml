@@ -1,10 +1,9 @@
 dateFormat: 15:04
 
 timezones:
-  - name: India
-    timezone: IST
-    color: Red
-    dateFormat: 15:04 # overwrites the global timeformat for this
+  - zone: "Asia/Kolkata"
+    heading: New Delhi
+    color: red
 
 rowSizes:
   - 2
