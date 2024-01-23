@@ -6,4 +6,10 @@ timezones:
 - heading: New Delhi
   zone: Asia/Kolkata
   color: red
+- heading: Tirane
+  zone: Europe/Tirane
+  color: blue
+- heading: Algiera
+  zone: Africa/Algiers
+  color: green
 centerEachRow: true

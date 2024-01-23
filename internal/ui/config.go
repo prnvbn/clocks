@@ -7,26 +7,26 @@ import (
 	"github.com/prnvbn/clocks/internal/tmz"
 )
 
-type Config struct {
-	DateFmt       string `yaml:"dateFormat"`
-	RowSizes      []int  `yaml:"rowSizes"`
-	Timzones      []TMZ  `yaml:"timezones"`
-	CenterEachRow bool   `yaml:"centerEachRow"`
+type AppConfig struct {
+	DateFmt       string        `yaml:"dateFormat"`
+	RowSizes      []int         `yaml:"rowSizes"`
+	Timzones      []ClockConfig `yaml:"timezones"`
+	CenterEachRow bool          `yaml:"centerEachRow"`
 }
 
-type TMZ struct {
+type ClockConfig struct {
 	Heading string   `yaml:"heading"`
 	Zone    tmz.Zone `yaml:"zone"`
 	Color   Color    `yaml:"color"`
 }
 
 // TODO: validate config
-func (c Config) Validate() error {
+func (c AppConfig) Validate() error {
 	return nil
 }
 
 // PrettyPrint prints the config in a human readable format
-func (c Config) PrettyPrint() error {
+func (c AppConfig) PrettyPrint() error {
 	cJSON, err := json.MarshalIndent(c, " ", " ")
 
 	if err != nil {

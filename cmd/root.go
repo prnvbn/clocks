@@ -21,7 +21,7 @@ var (
 	// flags
 	cfgPath string
 	verbose bool
-	cfg     ui.Config
+	cfg     ui.AppConfig
 
 	rootCmd = &cobra.Command{
 		Use:   "clocks",
@@ -74,7 +74,7 @@ var (
 )
 
 func run(cmd *cobra.Command, args []string) {
-	ui.Show(cfg)
+	ui.ShowClocks(cfg)
 }
 
 func Execute() {
