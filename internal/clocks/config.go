@@ -1,6 +1,11 @@
 package clocks
 
-import "github.com/prnvbn/clocks/internal/tmz"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/prnvbn/clocks/internal/tmz"
+)
 
 type Config struct {
 	DateFmt       string `yaml:"dateFormat"`
@@ -10,12 +15,24 @@ type Config struct {
 }
 
 type TMZ struct {
-	Name     string   `yaml:"name"`
-	Timezone tmz.Zone `yaml:"timezone"`
-	Color    Color    `yaml:"color"`
+	Heading string   `yaml:"heading"`
+	Zone    tmz.Zone `yaml:"zone"`
+	Color   Color    `yaml:"color"`
 }
 
 // TODO: validate config
 func (c Config) Validate() error {
+	return nil
+}
+
+// PrettyPrint prints the config in a human readable format
+func (c Config) PrettyPrint() error {
+	cJSON, err := json.MarshalIndent(c, " ", " ")
+
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(cJSON))
+
 	return nil
 }

@@ -4,7 +4,6 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/prnvbn/clocks/internal/clocks"
@@ -19,57 +18,43 @@ const (
 var (
 	// flags
 	cfgPath string
+	verbose bool
+	cfg     clocks.Config
 
 	rootCmd = &cobra.Command{
 		Use:   "clocks",
 		Short: "display time across multiple timezones",
 		Run:   run,
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			// TODO? graceful error handling
+			yamlBytes, err := os.ReadFile(cfgPath)
+			if err != nil {
+				return err
+			}
+
+			err = yaml.Unmarshal(yamlBytes, &cfg)
+			if err != nil {
+				return err
+			}
+
+			err = cfg.Validate()
+			if err != nil {
+				return err
+			}
+
+			if verbose {
+				err = cfg.PrettyPrint()
+				if err != nil {
+					return err
+				}
+			}
+			return nil
+		},
 	}
 )
 
 func run(cmd *cobra.Command, args []string) {
-
-	yamlBytes, err := os.ReadFile(cfgPath)
-	must(err)
-
-	var cfg clocks.Config
-	err = yaml.Unmarshal(yamlBytes, &cfg)
-	must(err)
-
-	// TODO? validate config
-	err = cfg.Validate()
-	must(err)
-
-	// TODO: add pretty printing for config when -v flag is passed
-	fmt.Println(cfg)
-
 	clocks.Show(cfg)
-
-	// leftText, _ := pterm.DefaultBigText.WithLetters(
-	// 	putils.LettersFromString(time.Now().Format("15:04")),
-	// ).Srender()
-	// rightText, _ := pterm.DefaultBigText.WithLetters(
-	// 	putils.LettersFromString(time.Now().Format("15:04")),
-	// ).Srender()
-
-	// area, _ := pterm.DefaultArea.WithCenter().Start()
-	// defer area.Stop()
-
-	// for i := 0; i < 5; i++ {
-	// 	atr, _ := pterm.DefaultTable.
-	// 		WithData(
-	// 			// TODO: getGrid(gridLayout)
-	// 			[][]string{
-	// 				{leftText, rightText},
-	// 				{leftText},
-	// 			},
-	// 		).
-	// 		WithSeparator("                "). // TODO? calc dynamically? with config?
-	// 		Srender()
-
-	// 	area.Update(atr)
-	// }
-
 }
 
 func Execute() {
@@ -81,11 +66,5 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "Config file path, defaults to "+defaultCfgFile)
-}
-
-// TODO! graceful handling
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "enables additional logging")
 }

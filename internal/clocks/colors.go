@@ -36,6 +36,11 @@ func ColorFromString(s string) Color {
 	return stringToColor[s]
 }
 
+// MarshalJSON
+func (c Color) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + c.String() + `"`), nil
+}
+
 func (c Color) MarshalYAML() (interface{}, error) {
 	return c.String(), nil
 }

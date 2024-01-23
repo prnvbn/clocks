@@ -34,7 +34,6 @@ var (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Allows you to add a timezone to your clocks",
-
 	Run: func(cmd *cobra.Command, args []string) {
 		cntries := maps.Keys(tmz.CountryZonesMap)
 		slices.Sort(cntries)

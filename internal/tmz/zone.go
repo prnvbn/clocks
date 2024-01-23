@@ -34,11 +34,11 @@ func (l Zone) GetUTCOffset() string {
 	return fmt.Sprintf("%+d:%02d", hours, minutes)
 }
 
-func (z Zone) MarshalYAML() (interface{}, error) {
-	return string(z), nil
+// marshalJSON
+func (z Zone) MarshalJSON() ([]byte, error) {
+	return []byte(`"` + string(z) + `"`), nil
 }
 
-// unmarschalYAML
 func (z *Zone) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	var s string
 	err := unmarshal(&s)
