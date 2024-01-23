@@ -1,5 +1,7 @@
 package ui
 
+import "github.com/pterm/pterm"
+
 type Color int
 
 const (
@@ -26,14 +28,27 @@ var (
 		"cyan":    Cyan,
 		"white":   White,
 	}
+	colorStyles = []*pterm.Style{
+		pterm.FgBlack.ToStyle(),
+		pterm.FgBlue.ToStyle(),
+		pterm.FgCyan.ToStyle(),
+		pterm.FgGreen.ToStyle(),
+		pterm.FgMagenta.ToStyle(),
+		pterm.FgRed.ToStyle(),
+		pterm.FgWhite.ToStyle(),
+		pterm.FgYellow.ToStyle(),
+	}
 )
 
 func (c Color) String() string {
 	return colors[c]
 }
-
 func ColorFromString(s string) Color {
 	return stringToColor[s]
+}
+
+func (c Color) ToStyle() *pterm.Style {
+	return colorStyles[c]
 }
 
 // MarshalJSON

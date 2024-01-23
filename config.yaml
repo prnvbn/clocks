@@ -1,12 +1,12 @@
 dateFormat: "15:04"
 rowSizes:
-  - 2
-  - 3
+- 2
+- 3
 timezones:
-  - heading: Kolkata
-    zone: Asia/Kolkata
-    color: green
-  - heading: New York
-    zone: America/New_York
-    color: green
+- heading: New York
+  zone: America/New_York
+  color: cyan
+- heading: Kolkata
+  zone: Asia/Kolkata
+  color: green
 centerEachRow: true

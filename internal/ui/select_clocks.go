@@ -11,19 +11,6 @@ import (
 	"golang.org/x/term"
 )
 
-var (
-	colorToStyle = map[string]*pterm.Style{
-		Black.String():   pterm.FgBlack.ToStyle(),
-		Red.String():     pterm.FgRed.ToStyle(),
-		Green.String():   pterm.FgGreen.ToStyle(),
-		Yellow.String():  pterm.FgYellow.ToStyle(),
-		Blue.String():    pterm.FgBlue.ToStyle(),
-		Magenta.String(): pterm.FgMagenta.ToStyle(),
-		Cyan.String():    pterm.FgCyan.ToStyle(),
-		White.String():   pterm.FgWhite.ToStyle(),
-	}
-)
-
 const (
 	minMaxHeight = 5
 )
@@ -58,7 +45,7 @@ func SelectClocks() []ClockConfig {
 			WithOptions(Colors).
 			WithDefaultText("Select a color for " + pterm.Bold.Sprint(z)).
 			WithRenderSelectedOptionFunc(func(s string) string {
-				return colorToStyle[s].
+				return ColorFromString(s).ToStyle().
 					Add(*pterm.Bold.ToStyle()).
 					Sprintf("  %s\n", s)
 			}).

@@ -1,27 +1,38 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
 
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
+	"golang.org/x/exp/maps"
 )
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "list all clocks",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+
+		bulletListItems := make([]pterm.BulletListItem, len(cfg.ClockCfgs))
+		for i, clockCfg := range maps.Keys(cfg.ClockCfgs) {
+			colorStyle := clockCfg.Color.ToStyle()
+			bulletListItems[i] = pterm.BulletListItem{
+				Level:       0,
+				Text:        clockCfg.String(),
+				TextStyle:   colorStyle,
+				Bullet:      fmt.Sprintf("%02d.", i+1),
+				BulletStyle: colorStyle,
+			}
+		}
+
+		// Have to use Srender() instead of Render() because of a bug(?) in pterm
+		// extra newline is added when using Render()
+		s, _ := pterm.DefaultBulletList.WithItems(bulletListItems).Srender()
+		print(s)
 	},
 }
 
