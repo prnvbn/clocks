@@ -1,9 +1,8 @@
 package tmz
 
-
-// CountriesMap is a map of countries to the timezones they have.
+// CountryZonesMap is a map of countries to the timezones they have.
 // generated using: https://gist.github.com/prnvbn/487507ce1caa2f160e54e0d6e0eab717
-var CountriesMap = map[string][]Loc{
+var CountryZonesMap = map[string][]Zone{
 	"Aruba":                                  {"America/Aruba"},
 	"Afghanistan":                            {"Asia/Kabul"},
 	"Angola":                                 {"Africa/Luanda"},

@@ -46,7 +46,7 @@ var addCmd = &cobra.Command{
 	Short: "Allows you to add a timezone to your clocks",
 
 	Run: func(cmd *cobra.Command, args []string) {
-		cntries := maps.Keys(tmz.CountriesMap)
+		cntries := maps.Keys(tmz.CountryZonesMap)
 		slices.Sort(cntries)
 
 		_, h, err := term.GetSize(int(os.Stdout.Fd()))
@@ -64,21 +64,19 @@ var addCmd = &cobra.Command{
 			WithMaxHeight(h).
 			Show()
 
-		var tmzs []string
+		var zones []tmz.Zone
 		for _, cntry := range selectedCntries {
-			cntryTMZs := tmz.CountriesMap[cntry]
-			for _, tz := range cntryTMZs {
-				tmzs = append(tmzs, tz.String())
-			}
+			cntryToZones := tmz.CountryZonesMap[cntry]
+			zones = append(zones, cntryToZones...)
 		}
 
-		var selectedTMZs []string
-		if len(tmzs) == 1 {
-			selectedTMZs = append(selectedTMZs, tmzs[0])
+		var selectedZones []tmz.Zone
+		if len(zones) == 1 {
+			selectedZones = append(selectedZones, zones[0])
 		} else {
-			tmzMenuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select countries; you can select the timezones after this ") + pterm.ThemeDefault.SecondaryStyle.Sprint("[type to search]")
-			selectedTMZs, _ = pterm.DefaultInteractiveMultiselect.
-				WithOptions(tmzs).
+			tmzMenuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select the timezones ") + pterm.ThemeDefault.SecondaryStyle.Sprint("[type to search]")
+			selectedZones, _ = pterm.NewGenericInteractiveMultiselect[tmz.Zone]().
+				WithOptions(zones).
 				WithDefaultText(tmzMenuHeading).
 				WithClearAllEnabled(true).
 				WithSelectAllEnabled(false).
@@ -86,12 +84,12 @@ var addCmd = &cobra.Command{
 				Show()
 		}
 
-		for _, tz := range selectedTMZs {
+		for _, z := range selectedZones {
 			// TODO? show sample number in an area next to the select menu
 			color, _ := pterm.DefaultInteractiveSelect.
 				WithMaxHeight(h).
 				WithOptions(colors).
-				WithDefaultText("select a color for " + pterm.Bold.Sprint(tz)).
+				WithDefaultText("Select a color for " + pterm.Bold.Sprint(z)).
 				WithRenderSelectedOptionFunc(func(s string) string {
 					return colorToStyle[s].
 						Add(*pterm.Bold.ToStyle()).
@@ -99,7 +97,16 @@ var addCmd = &cobra.Command{
 				}).
 				Show()
 
-			pterm.Success.Println(color + " selected for " + tz)
+			textInput := pterm.DefaultInteractiveTextInput.
+				WithMultiLine(false).
+				WithDefaultText("Enter a name for " + pterm.Bold.Sprint(z)).
+				WithDefaultValue(z.City())
+
+			result, _ := textInput.Show()
+
+			pterm.Println()
+			pterm.Info.Printfln("You answered: %s", result)
+			pterm.Success.Println(color + " selected for " + z.String() + " with name " + result)
 		}
 	},
 }

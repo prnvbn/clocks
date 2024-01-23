@@ -26,8 +26,8 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-// https://github.com/pterm/pterm/issues/618
-// 
-replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.4
-
 // replace github.com/pterm/pterm => /home/prnvbn/opensource/pterm
+
+// https://github.com/pterm/pterm/issues/618
+//
+replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.6
