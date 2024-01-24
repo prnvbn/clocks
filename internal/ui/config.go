@@ -8,10 +8,23 @@ import (
 )
 
 type AppConfig struct {
-	DateFmt       string      `yaml:"dateFormat" json:"dateFormat"`
-	RowSizes      []int       `yaml:"rowSizes" json:"rowSizes"`
-	ClockCfgs     ClockCfgSet `yaml:"timezones" json:"timezones"`
-	CenterEachRow bool        `yaml:"centerEachRow" json:"centerEachRow"`
+	DateFmt   string       `yaml:"dateFormat" json:"dateFormat"`
+	Layout    LayoutConfig `yaml:"layout" json:"layout"`
+	ClockCfgs ClockCfgSet  `yaml:"timezones" json:"timezones"`
+}
+
+type LayoutConfig struct {
+	RowSizes      []int `yaml:"rowSizes" json:"rowSizes"`
+	CenterEachRow bool  `yaml:"centerEachRow" json:"centerEachRow"`
+}
+
+// MaxClocks returns the maximum number of clocks
+// the current layout supports
+func (l LayoutConfig) MaxClocks() (sum int) {
+	for _, s := range l.RowSizes {
+		sum += s
+	}
+	return
 }
 
 type ClockConfig struct {

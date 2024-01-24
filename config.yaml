@@ -1,12 +1,18 @@
 dateFormat: "15:04"
-rowSizes:
-- 2
-- 3
+layout:
+  rowSizes:
+  - 1
+  centerEachRow: true
 timezones:
+- heading: New Salem
+  zone: America/North_Dakota/New_Salem
+  color: yellow
+- heading: Brisbane
+  zone: Australia/Brisbane
+  color: magenta
 - heading: New York
   zone: America/New_York
   color: cyan
 - heading: Kolkata
   zone: Asia/Kolkata
   color: green
-centerEachRow: true

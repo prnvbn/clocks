@@ -51,12 +51,11 @@ func SelectClocks() []ClockConfig {
 			}).
 			Show()
 
-		textInput := pterm.DefaultInteractiveTextInput.
+		heading, _ := pterm.DefaultInteractiveTextInput.
 			WithMultiLine(false).
 			WithDefaultText("Enter the display name for " + pterm.Bold.Sprint(z)).
-			WithDefaultValue(z.City())
-
-		heading, _ := textInput.Show()
+			WithDefaultValue(z.City()).
+			Show()
 
 		clockCfgs = append(clockCfgs, ClockConfig{
 			Heading: heading,

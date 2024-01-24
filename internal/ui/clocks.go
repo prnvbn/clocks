@@ -8,7 +8,10 @@ import (
 	"github.com/pterm/pterm/putils"
 )
 
-func ShowClocks(cfg AppConfig) {
+func ShowClocks(appCfg AppConfig) {
+
+	// c := appCfg.ClockCfgs
+
 	clocks := make([][]string, 2, 3)
 
 	fmt.Println(len(clocks), len(clocks[0]))
