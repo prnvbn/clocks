@@ -59,6 +59,8 @@ func SelectLayout(numClocks int) LayoutConfig {
 		}
 
 	case custom:
+		pterm.Bold.Println("You currently have", numClocks, "clocks added, keep this in mind while setting a cutom layout")
+
 		// In the custom case, first ask for number of rows they want
 		r := repeat(func() (int, error) {
 			rawNumRows, _ := pterm.DefaultInteractiveTextInput.
