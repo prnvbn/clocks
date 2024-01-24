@@ -7,7 +7,6 @@ import (
 	"github.com/prnvbn/clocks/internal/ui"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
-	"golang.org/x/exp/maps"
 )
 
 // removeCmd represents the remove command
@@ -28,7 +27,7 @@ var (
 				return
 			}
 
-			clockCfgs := ui.SelectClockConfigs(maps.Keys(cfg.ClockCfgs))
+			clockCfgs := ui.SelectClockConfigs(cfg.ClockCfgs)
 			cfg.ClockCfgs.Remove(clockCfgs...)
 			pterm.FgGreen.Println("Removed", len(clockCfgs), "clock(s)")
 		},

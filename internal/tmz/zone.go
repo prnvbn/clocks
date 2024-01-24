@@ -34,6 +34,25 @@ func (l Zone) GetUTCOffset() string {
 	return fmt.Sprintf("%+d:%02d", hours, minutes)
 }
 
+// Compare returns an integer comparing two Zones based on their UTC offset.
+// The result will be
+// 1. 0 if z == other,
+// 2. -1 if z < other, and
+// 3. +1 if z > other.
+func (z Zone) Compare(other Zone) int {
+	thisOffset := z.GetUTCOffset()
+	otherOffset := other.GetUTCOffset()
+
+	// "+" > "-" is false in Go
+	if thisOffset[0] > otherOffset[0] {
+		return -1
+	} else if thisOffset[0] < otherOffset[0] {
+		return 1
+	}
+
+	return strings.Compare(thisOffset, otherOffset)
+}
+
 // marshalJSON
 func (z Zone) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + string(z) + `"`), nil

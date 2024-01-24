@@ -26,7 +26,7 @@ func printLayoutWarning() bool {
 	if numClocks > cfg.Layout.MaxClocks() {
 		pterm.FgYellow.Printfln(
 			"Note: current layout only supports %d clock(s) but you have %d clocks added.\n"+
-				"please remove some clocks using the 'remove' command or set a new layout",
+				"please remove some clocks using the 'remove' command or set a new layout using the 'layout' command.",
 			cfg.Layout.MaxClocks(),
 			numClocks,
 		)

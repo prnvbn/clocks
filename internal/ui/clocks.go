@@ -10,7 +10,18 @@ import (
 
 func ShowClocks(appCfg AppConfig) {
 
-	clocks := make([][]string, 2, 3)
+	// numClocks := len(appCfg.ClockCfgs)
+	numRows := len(appCfg.Layout.RowSizes)
+	clocks := make([][]string, numRows)
+
+
+	
+	for i, rowSize := range appCfg.Layout.RowSizes {
+		clocks[i] = make([]string, rowSize)
+
+		// for j := 0; j < rowSize; j++ {
+
+	}
 
 	fmt.Println(len(clocks), len(clocks[0]))
 	// var clocks [][]string

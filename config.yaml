@@ -2,15 +2,14 @@ dateFormat: "15:04"
 layout:
   rowSizes:
   - 1
-  - 2
   centerEachRow: true
 timezones:
-- heading: Kolkata
-  zone: Asia/Kolkata
-  color: green
-- heading: Tirane
-  zone: Europe/Tirane
-  color: cyan
 - heading: New York
   zone: America/New_York
+  color: blue
+- heading: Kabul
+  zone: Asia/Kabul
+  color: black
+- heading: Kolkata
+  zone: Asia/Kolkata
   color: cyan

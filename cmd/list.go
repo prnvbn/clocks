@@ -8,7 +8,6 @@ import (
 
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
-	"golang.org/x/exp/maps"
 )
 
 // listCmd represents the list command
@@ -18,7 +17,7 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		bulletListItems := make([]pterm.BulletListItem, len(cfg.ClockCfgs))
-		for i, clockCfg := range maps.Keys(cfg.ClockCfgs) {
+		for i, clockCfg := range cfg.ClockCfgs {
 			colorStyle := clockCfg.Color.ToStyle()
 			bulletListItems[i] = pterm.BulletListItem{
 				Level:       0,
