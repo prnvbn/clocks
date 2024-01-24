@@ -20,16 +20,17 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			if all {
 				if len(cfg.ClockCfgs) == 0 {
-					pterm.Success.Println("No clocks to remove!")
+					pterm.FgYellow.Println("No clocks to remove!")
 					return
 				}
 				cfg.ClockCfgs = nil
-				pterm.Success.Println("Removed all clocks")
+				pterm.FgGreen.Println("Removed all clocks")
 				return
 			}
 
 			clockCfgs := ui.SelectClockConfigs(maps.Keys(cfg.ClockCfgs))
 			cfg.ClockCfgs.Remove(clockCfgs...)
+			pterm.FgGreen.Println("Removed", len(clockCfgs), "clock(s)")
 		},
 	}
 )

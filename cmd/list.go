@@ -29,8 +29,6 @@ var listCmd = &cobra.Command{
 			}
 		}
 
-		// Have to use Srender() instead of Render() because of a bug(?) in pterm
-		// extra newline is added when using Render()
 		s, _ := pterm.DefaultBulletList.WithItems(bulletListItems).Srender()
 		print(s)
 	},

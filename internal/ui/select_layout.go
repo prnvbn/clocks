@@ -59,7 +59,6 @@ func SelectLayout(numClocks int) LayoutConfig {
 		}
 
 	case custom:
-
 		// In the custom case, first ask for number of rows they want
 		r := repeat(func() (int, error) {
 			rawNumRows, _ := pterm.DefaultInteractiveTextInput.

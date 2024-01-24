@@ -11,9 +11,12 @@ var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add one or more clock",
 	Run: func(cmd *cobra.Command, args []string) {
+		oldNumClocks := len(cfg.ClockCfgs)
 		clockCfgs := ui.SelectClocks()
 		cfg.ClockCfgs.Add(clockCfgs...)
-		pterm.Success.Println("Added", len(clockCfgs), "clock(s)")
+
+		newNumClocks := len(cfg.ClockCfgs)
+		pterm.FgGreen.Println("Added", newNumClocks-oldNumClocks, "new clock(s)")
 	},
 }
 
