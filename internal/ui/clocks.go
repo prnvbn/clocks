@@ -18,7 +18,7 @@ func ShowClocks(appCfg AppConfig) {
 	clockRows := make([]string, numRows)
 
 	area, _ := pterm.DefaultArea.
-		WithCenter(appCfg.Layout.CenterEachRow).
+		// WithCenter(appCfg.Layout.CenterEachRow).
 		Start()
 	defer area.Stop()
 
@@ -58,11 +58,23 @@ func ShowClocks(appCfg AppConfig) {
 		clockRows[i] = clockTable
 	}
 
-	// need to cast to []any because Update takes a variadic of []any
-	castedClockRows := make([]any, len(clockRows))
-	for i, row := range clockRows {
-		castedClockRows[i] = row
+	var ret string
+	if appCfg.Layout.CenterEachRow {
+		for i := range clockRows {
+			ret += centerRow(clockRows[i])
+		}
+	} else {
+		for i := range clockRows {
+			ret += clockRows[i]
+		}
+		ret = centerRow(ret)
 	}
 
-	area.Update(castedClockRows...)
+	area.Update(
+		ret,
+	)
+}
+
+func centerRow(s string) string {
+	return pterm.DefaultCenter.Sprint(s)
 }

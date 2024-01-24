@@ -2,7 +2,7 @@ dateFormat: "15:04"
 layout:
   rowSizes:
   - 2
-  - 2
+  - 1
   centerEachRow: false
 timezones:
 - heading: New York
