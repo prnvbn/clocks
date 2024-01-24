@@ -13,6 +13,11 @@ func (l Zone) String() string {
 	return fmt.Sprintf("%s %s UTC", string(l), l.GetUTCOffset())
 }
 
+func (l Zone) Now() time.Time {
+	loc, _ := time.LoadLocation(string(l)) // TODO? add err check?
+	return time.Now().In(loc)
+}
+
 // City returns the city for the given location
 // e.g. "America/New_York" -> "New York",  "America/Argentina/Catamarca" -> "Catamarca"
 func (l Zone) City() string {
