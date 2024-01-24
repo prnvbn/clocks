@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/prnvbn/clocks/internal/ui"
+	"github.com/pterm/pterm"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -21,49 +22,61 @@ var (
 	// flags
 	cfgPath string
 	debug   bool
+
 	cfg     ui.AppConfig
-
 	rootCmd = &cobra.Command{
-		Use:   "clocks",
-		Short: "display time across multiple timezones",
-		Run:   run,
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			// TODO? graceful error handling
-			yamlBytes, err := os.ReadFile(cfgPath)
-			must(err)
-
-			err = yaml.Unmarshal(yamlBytes, &cfg)
-			must(err)
-			err = cfg.Validate()
-			must(err)
-
-			if debug {
-				zerolog.SetGlobalLevel(zerolog.DebugLevel)
-			} else {
-				zerolog.SetGlobalLevel(zerolog.Disabled)
+		Use:                "clocks",
+		Short:              "display time across multiple timezones",
+		PersistentPreRunE:  prerun,
+		PersistentPostRunE: postrun,
+		Run: func(cmd *cobra.Command, args []string) {
+			numClocks := len(cfg.ClockCfgs)
+			if numClocks == 0 {
+				pterm.FgYellow.Println("No clocks to display!")
+				pterm.FgBlue.Println("HINT: Use 'clocks add' to add a clock")
+				return
 			}
 
-			log.Debug().Interface("config", cfg).Msg("config loaded")
-			must(err)
+			if printLayoutWarning() {
+				return
+			}
 
-			return nil
-		},
-		PersistentPostRunE: func(cmd *cobra.Command, args []string) error {
-			yamlBytes, err := yaml.Marshal(cfg)
-			must(err)
-
-			// save yamlBytes to cfgPath
-			err = os.WriteFile(cfgPath, yamlBytes, 0644)
-			must(err)
-
-			log.Debug().Any("config", cfg).Msg("config saved")
-			return nil
+			ui.ShowClocks(cfg)
 		},
 	}
 )
 
-func run(cmd *cobra.Command, args []string) {
-	ui.ShowClocks(cfg)
+func prerun(cmd *cobra.Command, args []string) error {
+	yamlBytes, err := os.ReadFile(cfgPath)
+	must(err)
+
+	err = yaml.Unmarshal(yamlBytes, &cfg)
+	must(err)
+	err = cfg.Validate()
+	must(err)
+
+	if debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	} else {
+		zerolog.SetGlobalLevel(zerolog.Disabled)
+	}
+
+	log.Debug().Interface("config", cfg).Msg("config loaded")
+	must(err)
+
+	return nil
+}
+
+func postrun(cmd *cobra.Command, args []string) error {
+	yamlBytes, err := yaml.Marshal(cfg)
+	must(err)
+
+	// save yamlBytes to cfgPath
+	err = os.WriteFile(cfgPath, yamlBytes, 0644)
+	must(err)
+
+	log.Debug().Any("config", cfg).Msg("config saved")
+	return nil
 }
 
 func Execute() {

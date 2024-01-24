@@ -2,9 +2,8 @@ dateFormat: "15:04"
 layout:
   rowSizes:
   - 1
-  - 1
-  - 1
-  centerEachRow: false
+  - 2
+  centerEachRow: true
 timezones:
 - heading: Kolkata
   zone: Asia/Kolkata

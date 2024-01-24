@@ -16,18 +16,24 @@ var layoutCmd = &cobra.Command{
 		layoutCfg := ui.SelectLayout(numClocks)
 		cfg.Layout = layoutCfg
 
-		maxLayouts := layoutCfg.MaxClocks()
-
 		pterm.FgGreen.Println("new layout set!")
-		if numClocks > maxLayouts {
-			pterm.FgYellow.Printfln(
-				"Note: current layout only supports %d clock(s) but you have %d clocks added.\n"+
-					"please remove some clocks using the 'remove' command or set a new layout",
-				maxLayouts,
-				numClocks,
-			)
-		}
+		printLayoutWarning()
 	},
+}
+
+func printLayoutWarning() bool {
+	numClocks := len(cfg.ClockCfgs)
+	if numClocks > cfg.Layout.MaxClocks() {
+		pterm.FgYellow.Printfln(
+			"Note: current layout only supports %d clock(s) but you have %d clocks added.\n"+
+				"please remove some clocks using the 'remove' command or set a new layout",
+			cfg.Layout.MaxClocks(),
+			numClocks,
+		)
+		return true
+	}
+
+	return false
 }
 
 func init() {
