@@ -22,6 +22,7 @@ var (
 	// flags
 	cfgPath string
 	debug   bool
+	live    bool
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
@@ -41,7 +42,7 @@ var (
 				return
 			}
 
-			ui.ShowClocks(cfg)
+			ui.ShowClocks(cfg, live)
 		},
 	}
 )
@@ -92,6 +93,8 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "Config file path, defaults to "+defaultCfgFile)
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "enables debug logging")
 	_ = rootCmd.PersistentFlags().MarkHidden("debug")
+
+	rootCmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
 }
 
 func must(err error) {

@@ -1,25 +1,34 @@
 package ui
 
 import (
+	"time"
+
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
 )
 
 const separator = "   "
 
-func ShowClocks(appCfg AppConfig) {
-
+func ShowClocks(appCfg AppConfig, live bool) {
 	area, _ := pterm.DefaultArea.Start()
 	defer area.Stop()
 
-	var str string
-	if appCfg.Layout.CenterEachRow {
-		str = showAsMultipleTables(appCfg)
-	} else {
-		str = showAsSingleTable(appCfg)
-	}
+	for {
+		var str string
+		if appCfg.Layout.CenterEachRow {
+			str = showAsMultipleTables(appCfg)
+		} else {
+			str = showAsSingleTable(appCfg)
+		}
+		area.Update(str)
 
-	area.Update(str)
+		if !live {
+			break
+		}
+
+		time.Sleep(time.Second)
+
+	}
 }
 
 func showAsSingleTable(appCfg AppConfig) string {
