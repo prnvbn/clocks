@@ -1,15 +1,12 @@
 layout:
   rowSizes:
   - 2
-  - 2
-  centerEachRow: false
+  - 1
+  centerEachRow: true
 clocks:
 - heading: New York
   zone: America/New_York
   color: blue
-- heading: Kabul
-  zone: Asia/Kabul
-  color: black
 - heading: Kolkata
   zone: Asia/Kolkata
   color: cyan

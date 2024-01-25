@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
+	rdebug "runtime/debug"
 
 	"github.com/prnvbn/clocks/internal/ui"
 	"github.com/pterm/pterm"
@@ -13,6 +15,7 @@ import (
 
 const (
 	defaultCfgFile = "~/.clocks.yaml"
+	REPORT_LINK    = "https://github.com/prnvbn/clocks/issues/new"
 )
 
 var (
@@ -82,6 +85,21 @@ func saveConfig(cmd *cobra.Command, args []string) error {
 }
 
 func Execute() {
+
+	defer func() {
+		if r := recover(); r != nil {
+			pterm.BgRed.Println("Seems like you have discored a bug! Please report the issue at:", REPORT_LINK)
+			pterm.BgRed.Println("Please attach the below stack trace as part of the bug report")
+
+			fmt.Println("==================STACK-TRACE=====================")
+			fmt.Println("Stack trace:", string(rdebug.Stack()))
+			fmt.Println("=====================================================")
+
+			pterm.BgRed.Println("Seems like you have discored a bug! Please report the issue at:", REPORT_LINK)
+			pterm.BgRed.Println("Please attach the above stack trace as part of the bug report")
+		}
+	}()
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
