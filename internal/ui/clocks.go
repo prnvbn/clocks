@@ -15,6 +15,10 @@ func ShowClocks(appCfg AppConfig) {
 	area, _ := pterm.DefaultArea.Start()
 	defer area.Stop()
 
+	if appCfg.TwelveHour {
+		dateFmt = "3:04"
+	}
+
 	if appCfg.Seconds {
 		dateFmt += ":05"
 	}

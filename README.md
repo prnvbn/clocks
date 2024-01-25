@@ -1,5 +1,8 @@
 # clocks
 
+clcoks is a command line tool for displaying multiple clocks in your terminal. 
+
+
 ## commands[ ]
 
 [X] 'clocks' - shows the time for multiple timzones
@@ -19,10 +22,4 @@
 
 ## chores
 
-[ ] Go through todos
 [ ] Add CI
-
-- date format
-- panic for errors in pterm
-- panic recovery
-- CI

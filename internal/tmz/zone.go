@@ -14,7 +14,7 @@ func (l Zone) String() string {
 }
 
 func (l Zone) Now() time.Time {
-	loc, _ := time.LoadLocation(string(l)) // TODO? add err check?
+	loc, _ := time.LoadLocation(string(l))
 	return time.Now().In(loc)
 }
 

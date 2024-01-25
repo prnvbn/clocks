@@ -15,7 +15,6 @@ const (
 	minMaxHeight = 5
 )
 
-// TODO? breakdown further?
 func SelectClocks() []ClockConfig {
 	cntries := maps.Keys(tmz.CountryZonesMap)
 	slices.Sort(cntries)
@@ -39,7 +38,6 @@ func SelectClocks() []ClockConfig {
 	var clockCfgs []ClockConfig
 
 	for _, z := range selectedZones {
-		// TODO? show sample number in an area next to the select menu
 		color, _ := pterm.NewGenericInteractiveSelect[Color]().
 			WithMaxHeight(maxHeight()).
 			WithOptions(Colors).

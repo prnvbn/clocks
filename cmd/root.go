@@ -20,15 +20,16 @@ const (
 
 var (
 	// flags
-	cfgPath string
-	debug   bool
-	live    bool
-	seconds bool
+	cfgPath  string
+	debug    bool
+	live     bool
+	seconds  bool
+	twelveHr bool
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
 		Use:               "clocks",
-		Short:             "display time across multiple timezones",
+		Short:             "A tool to display time across multiple timezones.",
 		PersistentPreRunE: prerun,
 		Run: func(cmd *cobra.Command, args []string) {
 			numClocks := len(cfg.ClockCfgs)
@@ -47,6 +48,10 @@ var (
 			}
 			if seconds {
 				cfg.Seconds = true
+			}
+
+			if twelveHr {
+				cfg.TwelveHour = true
 			}
 
 			ui.ShowClocks(cfg)
@@ -104,17 +109,22 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
-	// TODO? graceful error handling
-	// add panic recover that gives an option to raise a GH issue
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "Config file path, defaults to "+defaultCfgFile)
+	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "path to the config file")
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "enables debug logging")
 	_ = rootCmd.PersistentFlags().MarkHidden("debug")
+	_ = rootCmd.PersistentFlags().MarkHidden("config")
 
-	rootCmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
-	rootCmd.Flags().BoolVarP(&seconds, "seconds", "s", false, "shows seconds as well")
+	addFlags(rootCmd)
+}
+
+func addFlags(cmd *cobra.Command) {
+	cmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
+	cmd.Flags().BoolVarP(&seconds, "seconds", "s", false, "shows seconds as well")
+	cmd.Flags().BoolVar(&twelveHr, "t12", false, "print dates in 12 hour format")
+
 }
 
 func fatal(err error, fmt string, args ...any) {

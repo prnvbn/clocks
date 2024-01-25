@@ -10,7 +10,7 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "list all clocks",
+	Short: "List all clocks",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		bulletListItems := make([]pterm.BulletListItem, len(cfg.ClockCfgs))

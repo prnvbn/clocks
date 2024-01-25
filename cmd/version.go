@@ -13,7 +13,7 @@ var version string
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "shows the tool version",
+	Short: "Shows the tool version",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("v%s", version)
 	},

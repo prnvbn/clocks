@@ -9,10 +9,11 @@ import (
 )
 
 type AppConfig struct {
-	Layout    LayoutConfig       `yaml:"layout" json:"layout"`
-	ClockCfgs SortedClockConfigs `yaml:"clocks" json:"clocks"`
-	Live      bool               `yaml:"live" json:"live"`
-	Seconds   bool               `yaml:"seconds" json:"seconds"`
+	Layout     LayoutConfig       `yaml:"layout" json:"layout"`
+	ClockCfgs  SortedClockConfigs `yaml:"clocks" json:"clocks"`
+	Live       bool               `yaml:"live" json:"live"`
+	Seconds    bool               `yaml:"seconds" json:"seconds"`
+	TwelveHour bool               `yaml:"twelveHour" json:"twelveHour"`
 }
 
 type LayoutConfig struct {
