@@ -9,7 +9,6 @@ import (
 )
 
 type AppConfig struct {
-	DateFmt   string             `yaml:"dateFormat" json:"dateFormat"`
 	Layout    LayoutConfig       `yaml:"layout" json:"layout"`
 	ClockCfgs SortedClockConfigs `yaml:"clocks" json:"clocks"`
 	Live      bool               `yaml:"live" json:"live"`
