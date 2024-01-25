@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -26,10 +23,9 @@ var (
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
-		Use:                "clocks",
-		Short:              "display time across multiple timezones",
-		PersistentPreRunE:  prerun,
-		PersistentPostRunE: postrun,
+		Use:               "clocks",
+		Short:             "display time across multiple timezones",
+		PersistentPreRunE: prerun,
 		Run: func(cmd *cobra.Command, args []string) {
 			numClocks := len(cfg.ClockCfgs)
 			if numClocks == 0 {
@@ -68,7 +64,7 @@ func prerun(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-func postrun(cmd *cobra.Command, args []string) error {
+func saveConfig(cmd *cobra.Command, args []string) error {
 	yamlBytes, err := yaml.Marshal(cfg)
 	must(err)
 

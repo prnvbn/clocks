@@ -8,8 +8,9 @@ import (
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add one or more clock",
+	Use:      "add",
+	Short:    "Add one or more clock",
+	PostRunE: saveConfig,
 	Run: func(cmd *cobra.Command, args []string) {
 		oldNumClocks := len(cfg.ClockCfgs)
 		clockCfgs := ui.SelectClocks()

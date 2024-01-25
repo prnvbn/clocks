@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -13,9 +10,9 @@ import (
 var (
 	all       bool
 	removeCmd = &cobra.Command{
-		Use:   "remove",
-		Short: "Remove one or more clock",
-
+		Use:      "remove",
+		Short:    "Remove one or more clock",
+		PostRunE: saveConfig,
 		Run: func(cmd *cobra.Command, args []string) {
 			if all {
 				if len(cfg.ClockCfgs) == 0 {

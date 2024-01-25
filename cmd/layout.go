@@ -8,9 +8,9 @@ import (
 
 // layoutCmd represents the layout command
 var layoutCmd = &cobra.Command{
-	Use:   "layout",
-	Short: "Update clocks layout",
-
+	Use:                "layout",
+	Short:              "Update clocks layout",
+	PostRunE: saveConfig,
 	Run: func(cmd *cobra.Command, args []string) {
 		numClocks := len(cfg.ClockCfgs)
 		layoutCfg := ui.SelectLayout(numClocks)
