@@ -38,19 +38,21 @@ var (
 				return
 			}
 
-			ui.ShowClocks(cfg, live)
+			if live {
+				cfg.Live = true
+			}
+
+			ui.ShowClocks(cfg)
 		},
 	}
 )
 
 func prerun(cmd *cobra.Command, args []string) error {
 	yamlBytes, err := os.ReadFile(cfgPath)
-	must(err)
+	fatal(err, "Config file %s does not exist!", cfgPath)
 
 	err = yaml.Unmarshal(yamlBytes, &cfg)
-	must(err)
-	err = cfg.Validate()
-	must(err)
+	fatal(err, "YAML Config file at %s is malformed", cfgPath)
 
 	if debug {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -59,18 +61,17 @@ func prerun(cmd *cobra.Command, args []string) error {
 	}
 
 	log.Debug().Interface("config", cfg).Msg("config loaded")
-	must(err)
 
 	return nil
 }
 
 func saveConfig(cmd *cobra.Command, args []string) error {
 	yamlBytes, err := yaml.Marshal(cfg)
-	must(err)
+	fatal(err, "YAML config file at %s is malformed", cfgPath)
 
 	// save yamlBytes to cfgPath
 	err = os.WriteFile(cfgPath, yamlBytes, 0644)
-	must(err)
+	fatal(err, "error saving YAML file to %s", cfgPath)
 
 	log.Debug().Any("config", cfg).Msg("config saved")
 	return nil
@@ -79,10 +80,10 @@ func saveConfig(cmd *cobra.Command, args []string) error {
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
-		// TODO? graceful error handling
-		// add recover that gives an option to raise a GH issue
 		os.Exit(1)
 	}
+	// TODO? graceful error handling
+	// add panic recover that gives an option to raise a GH issue
 }
 
 func init() {
@@ -93,8 +94,9 @@ func init() {
 	rootCmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
 }
 
-func must(err error) {
+func fatal(err error, fmt string, args ...any) {
 	if err != nil {
-		panic(err)
+		print(pterm.Fatal.Sprintfln(fmt, args...))
+		os.Exit(1)
 	}
 }

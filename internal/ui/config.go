@@ -12,6 +12,7 @@ type AppConfig struct {
 	DateFmt   string             `yaml:"dateFormat" json:"dateFormat"`
 	Layout    LayoutConfig       `yaml:"layout" json:"layout"`
 	ClockCfgs SortedClockConfigs `yaml:"timezones" json:"timezones"`
+	Live      bool               `yaml:"live" json:"live"`
 }
 
 type LayoutConfig struct {
@@ -36,11 +37,6 @@ type ClockConfig struct {
 
 func (c ClockConfig) String() string {
 	return fmt.Sprintf("%s (%s)", c.Heading, c.Zone)
-}
-
-// TODO: validate config
-func (c AppConfig) Validate() error {
-	return nil
 }
 
 // PrettyPrint prints the config in a human readable format

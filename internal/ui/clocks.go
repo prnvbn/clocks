@@ -9,7 +9,7 @@ import (
 
 const separator = "   "
 
-func ShowClocks(appCfg AppConfig, live bool) {
+func ShowClocks(appCfg AppConfig) {
 	area, _ := pterm.DefaultArea.Start()
 	defer area.Stop()
 
@@ -22,7 +22,7 @@ func ShowClocks(appCfg AppConfig, live bool) {
 		}
 		area.Update(str)
 
-		if !live {
+		if !appCfg.Live {
 			break
 		}
 
