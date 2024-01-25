@@ -4,7 +4,7 @@ layout:
   - 2
   - 2
   centerEachRow: false
-timezones:
+clocks:
 - heading: New York
   zone: America/New_York
   color: blue
