@@ -9,9 +9,15 @@ import (
 
 const separator = "   "
 
+var dateFmt = "15:04"
+
 func ShowClocks(appCfg AppConfig) {
 	area, _ := pterm.DefaultArea.Start()
 	defer area.Stop()
+
+	if appCfg.Seconds {
+		dateFmt += ":05"
+	}
 
 	for {
 		var str string
@@ -102,7 +108,7 @@ func makeRow(rowSize int, clockCfgs SortedClockConfigs, clockIndex *int) []strin
 		style := clockCfg.Color.ToStyle()
 		styledTime, _ := pterm.DefaultBigText.WithLetters(
 			putils.LettersFromStringWithStyle(
-				zone.Now().Format("15:04"), //TODO? make format configurable OR add a * in 12 hr format to indicate PM
+				zone.Now().Format(dateFmt),
 				style,
 			),
 		).Srender()

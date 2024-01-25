@@ -17,4 +17,5 @@ timezones:
 - heading: Perth
   zone: Australia/Perth
   color: magenta
-live: true
+live: false
+seconds: false

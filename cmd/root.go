@@ -20,6 +20,7 @@ var (
 	cfgPath string
 	debug   bool
 	live    bool
+	seconds bool
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
@@ -40,6 +41,9 @@ var (
 
 			if live {
 				cfg.Live = true
+			}
+			if seconds {
+				cfg.Seconds = true
 			}
 
 			ui.ShowClocks(cfg)
@@ -92,6 +96,7 @@ func init() {
 	_ = rootCmd.PersistentFlags().MarkHidden("debug")
 
 	rootCmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
+	rootCmd.Flags().BoolVarP(&seconds, "seconds", "s", false, "shows seconds as well")
 }
 
 func fatal(err error, fmt string, args ...any) {
