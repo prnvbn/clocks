@@ -26,7 +26,7 @@ as a go tool
 
 TODO: Add installation instructions
 
-This script installs the binary 
+This script installs the binary
 
 ### Adding a clock
 
@@ -53,11 +53,11 @@ To also see the seconds value, run `clocks --seconds`. To persist this setting, 
 
 ### 12 hour mode
 
-To display the time in 12 hour format, run `clocks --12`. To persist this setting, run `clocks set --12`. This setting can be reversed by running `clocks unset --12`.
+To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
 
 ## Why
 
-Sure, telling time in multiple places isn't rocket science. You could probably Google it or check your phone. However, that is extremely annoying (for me at the very least).
+Sure, telling time in multiple places isn't rocket science. You could probably Google it or check your phone, however, I find this extremely annoying.
 
 This annoyance is compounded when I am working on multiple projects simultaneously and monitoring different dashboards; thus leaving me with scarce screen real estate.
 

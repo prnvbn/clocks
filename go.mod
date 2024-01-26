@@ -30,10 +30,9 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-replace github.com/pterm/pterm => /home/prnvbn/opensource/pterm
 
-// https://github.com/pterm/pterm/issues/618
+// https://github.com/pterm/pterm/issues/621
 // and other stuff...
 // (it kinda got out of hand; imo pterm isnt as customizable or I am just picky)
 // I thought about using an adapter pattern but I can not import the internal package :(
-// replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.7
+replace github.com/pterm/pterm => github.com/prnvbn/pterm v0.0.7
