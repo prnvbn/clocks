@@ -6,7 +6,27 @@ clocks is a command line tool for displaying multiple clocks in your terminal. I
 
 ### Installation
 
+Run the following command to install clocks:
+
+```bash
+# TODO: curl command
+```
+
+or with wget:
+
+```bash
+# TODO: wget command
+```
+
+or with go:
+
+```bash
+as a go tool
+```
+
 TODO: Add installation instructions
+
+This script installs the binary 
 
 ### Adding a clock
 
