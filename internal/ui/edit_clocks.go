@@ -1,6 +1,9 @@
 package ui
 
-import "github.com/pterm/pterm"
+import (
+	"github.com/pterm/pterm"
+	"github.com/rs/zerolog/log"
+)
 
 func EditClocks(ClockCfgs SortedClockConfigs) {
 	clockCfg, _ := pterm.NewGenericInteractiveSelect[ClockConfig]().
@@ -16,8 +19,11 @@ func EditClocks(ClockCfgs SortedClockConfigs) {
 		Show()
 
 	ClockCfgs.Remove(clockCfg)
+	log.Debug().Msgf("Removed %s", clockCfg)
+
 	editClockConfig(&clockCfg)
 	ClockCfgs.Add(clockCfg)
+	log.Debug().Msgf("Added %s", clockCfg)
 }
 
 // editClockConfig propmts the user for clock config information.

@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	rdebug "runtime/debug"
 
 	"github.com/adrg/xdg"
@@ -30,16 +31,14 @@ var (
 	rootCmd = &cobra.Command{
 		Use:               "clocks",
 		Short:             "A tool to display time across multiple timezones.",
-		PersistentPreRunE: prerun,
+		PersistentPreRunE: loadConfig,
 		Run: func(cmd *cobra.Command, args []string) {
-			numClocks := len(cfg.ClockCfgs)
-			if numClocks == 0 {
-				pterm.FgYellow.Println("No clocks to display!")
-				pterm.FgBlue.Println("HINT: Use 'clocks add' to add a clock")
+			if clocksAbsent() {
 				return
 			}
 
 			if printLayoutWarning() {
+				pterm.FgRed.Println("Can not display all clocks with current layout.")
 				return
 			}
 
@@ -59,8 +58,21 @@ var (
 	}
 )
 
-func prerun(cmd *cobra.Command, args []string) error {
+// loadConfig loads the config from cfgPath
+// If the config does not exist, it creates a new one
+func loadConfig(cmd *cobra.Command, args []string) error {
 	yamlBytes, err := os.ReadFile(cfgPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			// create config file
+			err = os.MkdirAll(filepath.Dir(cfgPath), 0755)
+			fatal(err, "error creating config directory at %s", filepath.Dir(cfgPath))
+
+			err = saveConfig(cmd, args)
+			fatal(err, "error saving config file at %s", cfgPath)
+		}
+		return err
+	}
 	fatal(err, "Config file %s does not exist!", cfgPath)
 
 	err = yaml.Unmarshal(yamlBytes, &cfg)
@@ -70,6 +82,15 @@ func prerun(cmd *cobra.Command, args []string) error {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	} else {
 		zerolog.SetGlobalLevel(zerolog.Disabled)
+	}
+
+	// Update layout for vertical and horizontal layouts
+	// this is done so that once the user sets their layout as vertical or horizontal
+	// it stays that way even if they add or remove clocks
+	if cfg.Layout.LayoutType == ui.Horizontal {
+		cfg.Layout = ui.NewHorizontalLayout(len(cfg.ClockCfgs))
+	} else if cfg.Layout.LayoutType == ui.Vertical {
+		cfg.Layout = ui.NewVerticalLayout(len(cfg.ClockCfgs))
 	}
 
 	log.Debug().Interface("config", cfg).Msg("config loaded")
@@ -112,9 +133,14 @@ func Execute() {
 }
 
 func init() {
-	defaultCfgFile := xdg.ConfigHome + "/clocks/config.yaml"
 
-	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "path to the config file")
+	var ok bool
+	cfgPath, ok = os.LookupEnv("CLOCKS_CONFIG_PATH")
+	if !ok {
+		// default to $XDG_CONFIG_HOME/clocks/config.yaml
+		cfgPath = xdg.ConfigHome + "/clocks/config.yaml"
+	}
+
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "enables debug logging")
 	_ = rootCmd.PersistentFlags().MarkHidden("debug")
 	_ = rootCmd.PersistentFlags().MarkHidden("config")

@@ -17,8 +17,30 @@ type AppConfig struct {
 }
 
 type LayoutConfig struct {
-	RowSizes      []int `yaml:"rowSizes" json:"rowSizes"`
-	CenterEachRow bool  `yaml:"centerEachRow" json:"centerEachRow"`
+	LayoutType    LayoutType `yaml:"layoutType" json:"layoutType"`
+	RowSizes      []int      `yaml:"rowSizes" json:"rowSizes"`
+	CenterEachRow bool       `yaml:"centerEachRow" json:"centerEachRow"`
+}
+
+// NewHorizontalLayout returns a layout with row sizes set to [numClocks]
+// i.e. there is only one row which can have numClocks clocks
+func NewHorizontalLayout(numClocks int) (l LayoutConfig) {
+	l.RowSizes = []int{numClocks}
+	l.LayoutType = Horizontal
+
+	return
+}
+
+// NewVerticalLayout returns a layout with row sizes set to [1] * numClocks
+// i.e. each clock has its own row
+func NewVerticalLayout(numClocks int) (l LayoutConfig) {
+	l.RowSizes = make([]int, numClocks)
+	for i := 0; i < numClocks; i++ {
+		l.RowSizes[i] = 1
+	}
+	l.LayoutType = Vertical
+
+	return
 }
 
 // MaxClocks returns the maximum number of clocks

@@ -9,16 +9,16 @@ import (
 	"github.com/pterm/pterm"
 )
 
-type Layout int
+type LayoutType int
 
 const (
-	horizontal Layout = iota
-	vertical
-	custom
+	Horizontal LayoutType = iota
+	Vertical
+	Custom
 )
 
 var (
-	Layouts = []Layout{horizontal, vertical, custom}
+	Layouts = []LayoutType{Horizontal, Vertical, Custom}
 	layouts = []string{
 		"horizontal (all clocks in one row)",
 		"vertical   (all clocks in one column)",
@@ -26,13 +26,13 @@ var (
 	}
 )
 
-func (l Layout) String() string {
+func (l LayoutType) String() string {
 	return layouts[l]
 }
 
 func SelectLayout(numClocks int) LayoutConfig {
 	menuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select a layout")
-	selected, _ := pterm.NewGenericInteractiveSelect[Layout]().
+	selected, _ := pterm.NewGenericInteractiveSelect[LayoutType]().
 		WithMaxHeight(maxHeight()).
 		WithOptions(Layouts).
 		WithFilter(false).
@@ -43,22 +43,13 @@ func SelectLayout(numClocks int) LayoutConfig {
 		Show()
 
 	switch selected {
-	case horizontal:
-		return LayoutConfig{
-			RowSizes: []int{numClocks},
-		}
+	case Horizontal:
+		return NewHorizontalLayout(numClocks)
 
-	case vertical:
-		rowSizes := make([]int, numClocks)
-		for i := 0; i < numClocks; i++ {
-			rowSizes[i] = 1
-		}
+	case Vertical:
+		return NewVerticalLayout(numClocks)
 
-		return LayoutConfig{
-			RowSizes: rowSizes,
-		}
-
-	case custom:
+	case Custom:
 		pterm.Bold.Println("You currently have", numClocks, "clocks added, keep this in mind while setting a cutom layout")
 
 		// In the custom case, first ask for number of rows they want
@@ -107,6 +98,7 @@ func SelectLayout(numClocks int) LayoutConfig {
 		return LayoutConfig{
 			RowSizes:      rowSizes,
 			CenterEachRow: centerEachRow,
+			LayoutType:    Custom,
 		}
 	default:
 		panic("should never reach here")

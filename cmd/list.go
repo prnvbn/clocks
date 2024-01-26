@@ -12,6 +12,9 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all clocks",
 	Run: func(cmd *cobra.Command, args []string) {
+		if clocksAbsent() {
+			return
+		}
 
 		bulletListItems := make([]pterm.BulletListItem, len(cfg.ClockCfgs))
 		for i, clockCfg := range cfg.ClockCfgs {
@@ -32,4 +35,13 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+}
+
+func clocksAbsent() (absent bool) {
+	absent = len(cfg.ClockCfgs) == 0
+	if absent {
+		pterm.FgYellow.Println("No clocks to display!")
+		pterm.FgBlue.Println("HINT: Use 'clocks add' to add a clock")
+	}
+	return
 }
