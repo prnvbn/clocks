@@ -3,12 +3,12 @@ module github.com/prnvbn/clocks
 go 1.21.3
 
 require (
+	github.com/adrg/xdg v0.4.0
 	github.com/pterm/pterm v0.12.75
 	github.com/rs/zerolog v1.31.0
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/exp v0.0.0-20220909182711-5c715a9e8561
 	golang.org/x/term v0.16.0
-	gopkg.in/yaml.v2 v2.2.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -29,7 +29,6 @@ require (
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 )
-
 
 // https://github.com/pterm/pterm/issues/621
 // and other stuff...

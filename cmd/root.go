@@ -5,17 +5,17 @@ import (
 	"os"
 	rdebug "runtime/debug"
 
+	"github.com/adrg/xdg"
 	"github.com/prnvbn/clocks/internal/ui"
 	"github.com/pterm/pterm"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 const (
-	defaultCfgFile = "~/.clocks.yaml"
-	REPORT_LINK    = "https://github.com/prnvbn/clocks/issues/new"
+	REPORT_LINK = "https://github.com/prnvbn/clocks/issues/new"
 )
 
 var (
@@ -112,6 +112,8 @@ func Execute() {
 }
 
 func init() {
+	defaultCfgFile := xdg.ConfigHome + "/clocks/config.yaml"
+
 	rootCmd.PersistentFlags().StringVarP(&cfgPath, "config", "c", defaultCfgFile, "path to the config file")
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "enables debug logging")
 	_ = rootCmd.PersistentFlags().MarkHidden("debug")
