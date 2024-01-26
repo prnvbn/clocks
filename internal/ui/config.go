@@ -37,7 +37,7 @@ type ClockConfig struct {
 }
 
 func (c ClockConfig) String() string {
-	return fmt.Sprintf("%s (%s)", c.Heading, c.Zone)
+	return c.Color.ToStyle().Sprintf("%s (%s)", c.Heading, c.Zone)
 }
 
 // PrettyPrint prints the config in a human readable format

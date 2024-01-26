@@ -1,7 +1,6 @@
 # clocks
 
-clcoks is a command line tool for displaying multiple clocks in your terminal. 
-
+clocks is a command line tool for displaying multiple clocks in your terminal.
 
 ## commands[ ]
 
@@ -23,3 +22,9 @@ clcoks is a command line tool for displaying multiple clocks in your terminal.
 ## chores
 
 [ ] Add CI
+
+## Why?
+
+Sure, telling time in multiple places isn't rocket science. You could probably Google it or check your phone. However, that is extremely annoying.
+
+Also, I fill up screens with terminal windows, chrome tabs and other things. I don't want to have to open another window just to check the time.

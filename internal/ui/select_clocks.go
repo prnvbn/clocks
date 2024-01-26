@@ -35,35 +35,20 @@ func SelectClocks() []ClockConfig {
 	}
 
 	selectedZones := SelectZones(zones)
-	var clockCfgs []ClockConfig
 
-	for _, z := range selectedZones {
-		color, _ := pterm.NewGenericInteractiveSelect[Color]().
-			WithMaxHeight(maxHeight()).
-			WithOptions(Colors).
-			WithDefaultText("Select a color for " + pterm.Bold.Sprint(z)).
-			WithRenderSelectedOptionFunc(func(s string) string {
-				return ColorFromString(s).ToStyle().
-					Add(*pterm.Bold.ToStyle()).
-					Sprintf("  %s\n", s)
-			}).
-			Show()
+	clockCfgs := make([]ClockConfig, len(selectedZones))
 
-		heading, _ := pterm.DefaultInteractiveTextInput.
-			WithMultiLine(false).
-			WithDefaultText("Enter the display name for " + pterm.Bold.Sprint(z)).
-			WithDefaultValue(z.City()).
-			Show()
-
-		clockCfgs = append(clockCfgs, ClockConfig{
-			Heading: heading,
+	for i, z := range selectedZones {
+		clockCfg := ClockConfig{
 			Zone:    z,
-			Color:   color,
-		})
+			Heading: z.City(),
+		}
+		editClockConfig(&clockCfg)
+
+		clockCfgs[i] = clockCfg
 	}
 
 	return clockCfgs
-
 }
 
 func maxHeight() int {

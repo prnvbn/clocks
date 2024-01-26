@@ -1,17 +1,18 @@
 layout:
   rowSizes:
   - 2
-  - 1
+  - 2
   centerEachRow: true
 clocks:
 - heading: New York
   zone: America/New_York
   color: blue
-- heading: Kolkata
+- heading: New Delhi
   zone: Asia/Kolkata
-  color: cyan
+  color: red
 - heading: Perth
   zone: Australia/Perth
   color: magenta
 live: false
 seconds: false
+twelveHour: false
