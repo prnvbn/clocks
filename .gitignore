@@ -2,3 +2,5 @@
 .vscode/settings.json
 
 
+# Test config file
+config.yaml
