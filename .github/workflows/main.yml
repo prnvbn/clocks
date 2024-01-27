@@ -16,7 +16,7 @@ jobs:
       - name: Tag
         id: tag
         run: |
-          cat cmd/version.txt >> $GITHUB_OUTPUT
+          echo -n `cat cmd/version.txt` >> $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-script@v5
