@@ -1,12 +1,16 @@
+.PHONY : dist windows darwin linux-amd64 linux-arm64
+
 DIST_DIR="dist"
 ZIP="zip -m"
 
 LDFLAGS="-s -w"
 BUILD_FLAGS=-ldflags=$(LDFLAGS)
 
-dist: windows darwin linux-amd64 linux-arm64
 
-# cheat-windows-amd64
+dist:
+	mkdir -p $(DIST_DIR)
+	$(MAKE) windows darwin linux-amd64 linux-arm64
+
 .PHONY= build-windows
 windows:
 	GOOS=windows \
@@ -29,4 +33,4 @@ linux-arm64:
 	zip -m $(DIST_DIR)/clocks-linux-arm64.zip clocks-linux-arm64
 
 clean:
-	rm -r $(DIST_DIR)/*
+	rm -r $(DIST_DIR)/
