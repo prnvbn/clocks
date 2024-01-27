@@ -4,3 +4,6 @@
 
 # Test config file
 config.yaml
+
+# build
+dist/

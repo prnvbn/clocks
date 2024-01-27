@@ -1,29 +1,51 @@
 on:
   push:
-    paths: ['folder/**']
+    paths: ["cmd/version.txt"]
 
 permissions:
   contents: write
 
 jobs:
-  goreleaser:
+  publish:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 #  required for the changelog to work correctly.
-      -
-        name: Set up Go
-        uses: actions/setup-go@v4
-      -
-        name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+          fetch-depth: 0 # required for the changelog to work correctly.
+      - name: Tag
+        id: tag
+        run: |
+          cat cmd/version.txt >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        uses: actions/github-script@v5
         with:
-          # either 'goreleaser' (default) or 'goreleaser-pro'
-          distribution: goreleaser
-          version: latest
-          args: release --clean
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v$TAG',
+              sha: context.sha
+            })
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.tag.outputs }}
+
+  # goreleaser:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0 # required for the changelog to work correctly.
+  #     - name: Set up Go
+  #       uses: actions/setup-go@v4
+  #     - name: Run GoReleaser
+  #       uses: goreleaser/goreleaser-action@v5
+  #       with:
+  #         # either 'goreleaser' (default) or 'goreleaser-pro'
+  #         distribution: goreleaser
+  #         version: latest
+  #         args: release --clean
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
