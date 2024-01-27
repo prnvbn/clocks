@@ -30,21 +30,31 @@ jobs:
               sha: context.sha
             })
 
-  goreleaser:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # required for the changelog to work correctly.
-      - name: Set up Go
-        uses: actions/setup-go@v4
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+          fetch-depth: 0
+      - name: build
+        run: make dist
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          # either 'goreleaser' (default) or 'goreleaser-pro'
-          distribution: goreleaser
-          version: latest
-          args: release --clean
+          tag_name: $TAG
+          release_name: Release v$TAG
+          body: Release description
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Assets to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/*
+          asset_name: dist-$TAG
+          asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
