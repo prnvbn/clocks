@@ -1,7 +1,7 @@
 on:
   push:
     paths: ["cmd/version.txt"]
-    branches: ["main", "fix-ci"]
+    branches: ["main"]
 
 permissions:
   contents: write
