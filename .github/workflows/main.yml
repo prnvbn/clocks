@@ -25,11 +25,9 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v$TAG',
+              ref: 'refs/tags/v${{ steps.tag.outputs.TAG }}',
               sha: context.sha
             })
-        env:
-          TAG: ${{ steps.tag.outputs.TAG }}
 
   # goreleaser:
   #   runs-on: ubuntu-latest
