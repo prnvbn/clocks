@@ -26,7 +26,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: refs/tags/v$TAG,
+              ref: 'refs/tags/v' + process.env.TAG,
               sha: context.sha
             })
 
