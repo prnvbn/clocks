@@ -40,6 +40,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          tag: $TAG
+          tag: ${{ env.TAG }}
           artifacts: "dist/*"
           draft: true
