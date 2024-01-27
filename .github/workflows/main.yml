@@ -20,17 +20,15 @@ jobs:
           echo "TAG=$(head -c -1 cmd/version.txt)" >> $GITHUB_ENV
 
       - name: Create tag
-        run: |
-          echo $TAG
-        # uses: actions/github-script@v7
-        # with:
-        #   script: |
-        #     github.rest.git.createRef({
-        #       owner: context.repo.owner,
-        #       repo: context.repo.repo,
-        #       ref: 'refs/tags/v${{ steps.tag.outputs.TAG }}',
-        #       sha: context.sha
-        #     })
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v$TAG',
+              sha: context.sha
+            })
 
   # goreleaser:
   #   runs-on: ubuntu-latest
