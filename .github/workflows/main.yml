@@ -26,7 +26,7 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v' + process.env.TAG,
+              ref: 'refs/tags/v${{env.TAG}}',
               sha: context.sha
             })
 
@@ -40,6 +40,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ env.TAG }}
+          tag: Release v${{ env.TAG }}
           artifacts: "dist/*"
-          draft: true
+          prerelease: true
