@@ -16,7 +16,7 @@ jobs:
       - name: Tag
         id: tag
         run: |
-          echo "TAG=`head -c -1 cmd/version.txt`"` >> $GITHUB_OUTPUT
+          echo "TAG=`head -c -1 cmd/version.txt`" >> $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-script@v5
