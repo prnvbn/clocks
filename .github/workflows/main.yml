@@ -37,7 +37,9 @@ jobs:
       - name: build
         run: make dist
 
-      - uses: ncipollo/release-action@v1
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          tag: process.env.TAG
+          tag: $TAG
           artifacts: "dist/*"
+          draft: true
