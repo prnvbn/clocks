@@ -19,10 +19,12 @@ windows:
 darwin:
 	GOOS=darwin \
 	go build $(BUILD_FLAGS) -o $(DIST_DIR)/clocks-darwin
+	chmod +x $(DIST_DIR)/clocks-darwin
 
 linux:
 	GOOS=linux \
 	go build $(BUILD_FLAGS) -o  $(DIST_DIR)/clocks-linux
+	chmod +x $(DIST_DIR)/clocks-linux
 
 clean:
 	rm -r $(DIST_DIR)/
