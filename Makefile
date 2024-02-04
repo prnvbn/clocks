@@ -22,7 +22,7 @@ darwin:
 
 linux:
 	GOOS=linux \
-	go build $(BUILD_FLAGS) -o clocks-linux-arm64
+	go build $(BUILD_FLAGS) -o  $(DIST_DIR)/clocks-linux
 
 clean:
 	rm -r $(DIST_DIR)/
