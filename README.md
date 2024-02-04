@@ -6,36 +6,29 @@ clocks is a command line tool for displaying multiple clocks in your terminal. I
 
   ![image](https://github.com/prnvbn/clocks/assets/55818107/2ace2664-7c58-4c30-b42a-e1b2cacdcd7f)
 
+## Installation
+
+### Unix like systems
+
+You can install the latest version of clocks by running the following command in your terminal. Remember to replace `<PLATFORM>` with your platform (linux-arm64, linux-amd64 or darwin).
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh | PLATFORM=<PLATFORM> bash
+```
+
+or using wget:
+
+```bash
+wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  PLATFORM=<PLATFORM> bash
+```
+
+### Windows
+
+Windows installation instructions are a WIP. In the meantime, you can download the latest release from the [releases page](https://github.com/prnvbn/clocks/releases)
 
 ## Getting Started
 
-### Installation
-
-Run the following command to install clocks:
-
-```bash
-# TODO: curl command
-```
-
-or with wget:
-
-```bash
-# TODO: wget command
-```
-
-or with go:
-
-```bash
-as a go tool
-```
-
-TODO: Add installation instructions
-
-This script installs the binary
-
-### Adding a clock
-
-Run `clocks add` and follow the prompts.
+Run `clocks add` and follow the prompts to add a clock.
 
 TODO: Add screenshot/video?
 
@@ -46,11 +39,17 @@ To list all clocks without the time, run `clocks list`.
 
 ## Additional Features
 
-### Live mode
+### Layouts
 
-To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
+Use the `clocks layout` comand to change the layout of the clocks.
 
-TODO: add screenshot/video?
+- Custom (Grid)
+
+  ![image](https://github.com/prnvbn/clocks/assets/55818107/e0130fea-ffd8-4ea6-8edf-c086c9a4f176)
+
+- Custom (Centered)
+
+  ![image](https://github.com/prnvbn/clocks/assets/55818107/ab20d59a-b7a1-4691-b030-b3be31a8fe6a)
 
 ### Seconds mode
 
@@ -60,14 +59,13 @@ To also see the seconds value, run `clocks --seconds`. To persist this setting, 
 
 To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
 
-### Layouts
-- Custom (Grid)
 
-  ![image](https://github.com/prnvbn/clocks/assets/55818107/e0130fea-ffd8-4ea6-8edf-c086c9a4f176)
 
-- Custom (Centered)
-  
-  ![image](https://github.com/prnvbn/clocks/assets/55818107/ab20d59a-b7a1-4691-b030-b3be31a8fe6a)
+### Live mode
+
+To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
+
+TODO: add screenshot/video?
 
 ## Why
 
@@ -78,9 +76,3 @@ This annoyance is compounded when I am working on multiple projects simultaneous
 ## Contributing
 
 Feel free to open an issue or submit a pull request. I'm always open to suggestions and improvements :)
-
-## TODO
-
-[ ] CI/CD - release
-[ ] Installation script
-[ ] Update README TODOs
