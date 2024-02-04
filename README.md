@@ -2,7 +2,7 @@
 
 clocks is a command line tool for displaying multiple clocks in your terminal. It allows you to configure multiple clocks and display them in a single view. You can give different timezone clocks different colors to allow for easy distinction. You can also configure your preferred layout.
 
-  ![image](https://github.com/prnvbn/clocks/assets/55818107/2ace2664-7c58-4c30-b42a-e1b2cacdcd7f)
+![image](https://github.com/prnvbn/clocks/assets/55818107/2ace2664-7c58-4c30-b42a-e1b2cacdcd7f)
 
 ## Installation
 
@@ -20,6 +20,8 @@ or using wget:
 wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  PLATFORM=<PLATFORM> bash
 ```
 
+Move the binary to a directory in your PATH. For e.g. `/usr/local/bin` on linux.
+
 ### Windows
 
 Windows installation instructions are a WIP. In the meantime, you can download the latest release from the [releases page](https://github.com/prnvbn/clocks/releases)
@@ -28,6 +30,7 @@ Windows installation instructions are a WIP. In the meantime, you can download t
 
 Run `clocks add` and follow the prompts to add a clock.
 You can edit a clock at any time by running `clocks edit` and following the prompts.
+The clocks can be displayed by running `clocks`.
 
 You can remove a clock by running `clocks remove` and following the prompts.
 
@@ -52,7 +55,6 @@ Use the `clocks layout` comand to change the layout of the clocks.
 To also see the seconds value, run `clocks --seconds`. To persist this setting, run `clocks set --seconds`. This setting can be reversed by running `clocks unset --seconds`.
 ![image](https://github.com/prnvbn/clocks/assets/55818107/94cef848-952a-4526-b4ee-2193e3219100)
 
-
 ### 12 hour mode
 
 To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
@@ -63,6 +65,14 @@ Note that additional work to display AM/PM on the clock face as well
 ### Live mode
 
 To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
+
+## Configuration
+
+clocks is configured by a YAML file that will be auto-generated on first run. By default, the config file is assumed to exist on an [XDG-compliant](https://en.wikipedia.org/wiki/Freedesktop.org) configuration path like `~/.config/clocks/config.yaml`. If you would like to store it elsewhere, you may export a `CLOCKS_CONFIG_PATH` environment variable that specifies its path:
+
+```bash
+export CLOCKS_CONFIG_PATH="<NEW_CONFIG_PATH>"
+```
 
 ## Why
 
