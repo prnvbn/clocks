@@ -64,8 +64,6 @@ Note that additional work to display AM/PM on the clock face as well
 
 To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
 
-TODO: add screenshot/video?
-
 ## Why
 
 Sure, telling time in multiple places isn't rocket science. You could probably Google it or check your phone, however, I find this extremely annoying.
