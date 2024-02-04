@@ -2,6 +2,11 @@
 
 clocks is a command line tool for displaying multiple clocks in your terminal. It allows you to configure multiple clocks and display them in a single view.
 
+- Horizontal
+
+  ![image](https://github.com/prnvbn/clocks/assets/55818107/2ace2664-7c58-4c30-b42a-e1b2cacdcd7f)
+
+
 ## Getting Started
 
 ### Installation
@@ -54,6 +59,15 @@ To also see the seconds value, run `clocks --seconds`. To persist this setting, 
 ### 12 hour mode
 
 To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
+
+### Layouts
+- Custom (Grid)
+
+  ![image](https://github.com/prnvbn/clocks/assets/55818107/e0130fea-ffd8-4ea6-8edf-c086c9a4f176)
+
+- Custom (Centered)
+  
+  ![image](https://github.com/prnvbn/clocks/assets/55818107/ab20d59a-b7a1-4691-b030-b3be31a8fe6a)
 
 ## Why
 
