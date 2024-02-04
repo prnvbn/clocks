@@ -2,7 +2,7 @@
 
 clocks is a command line tool for displaying multiple clocks in your terminal. It allows you to configure multiple clocks and display them in a single view. You can give different timezone clocks different colors to allow for easy distinction. You can also configure your preferred layout.
 
-![image](https://github.com/prnvbn/clocks/assets/55818107/2ace2664-7c58-4c30-b42a-e1b2cacdcd7f)
+![image](https://github.com/prnvbn/clocks/assets/55818107/29f6a1b8-e2f0-472f-969c-1148ffe3e72c)
 
 ## Installation
 
