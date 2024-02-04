@@ -1,4 +1,4 @@
-.PHONY : dist windows darwin linux-amd64 linux-arm64
+.PHONY : dist windows darwin linux
 
 DIST_DIR="dist"
 ZIP="zip -m"
@@ -9,7 +9,7 @@ BUILD_FLAGS=-ldflags=$(LDFLAGS)
 
 dist:
 	mkdir -p $(DIST_DIR)
-	$(MAKE) windows darwin linux-amd64 linux-arm64
+	$(MAKE) windows darwin linux
 
 .PHONY= build-windows
 windows:
