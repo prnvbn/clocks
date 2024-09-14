@@ -5,9 +5,8 @@ package tmz
 //
 // Additional Timezones added manually
 var CountryZonesMap = map[string][]Zone{
-	"GMT":                                    {"Europe/Warsaw"},
-	"UTC":                                    {"Europe/Warsaw"},
-	"BST":                                    {"Europe/London"},
+	"GMT":                                    {"Africa/Abidjan", "Africa/Accra", "Atlantic/Reykjavik"},
+	"UTC":                                    {"Africa/Abidjan", "Africa/Accra", "Atlantic/Reykjavik"},
 	"IST":                                    {"Asia/Kolkata"},
 	"CET":                                    {"Europe/Paris", "Europe/Berlin", "Europe/Rome"},
 	"CDT":                                    {"America/Chicago", "America/Mexico_City"},
