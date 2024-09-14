@@ -8,12 +8,17 @@ import (
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:      "add",
+	Use:      "add [FUZZY_COUNTRY_NAME?]",
 	Short:    "Add one or more clock",
 	PostRunE: saveConfig,
+	Args:     cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		oldNumClocks := len(cfg.ClockCfgs)
-		clockCfgs := ui.SelectClocks()
+		searchTerm := ""
+		if len(args) >= 1 {
+			searchTerm = args[0]
+		}
+		clockCfgs := ui.SelectClocks(searchTerm)
 		cfg.ClockCfgs.Add(clockCfgs...)
 
 		newNumClocks := len(cfg.ClockCfgs)

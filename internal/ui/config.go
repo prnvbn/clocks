@@ -3,8 +3,11 @@ package ui
 import (
 	"encoding/json"
 	"fmt"
+	"iter"
 	"slices"
+	"strings"
 
+	"github.com/prnvbn/clocks/internal/match"
 	"github.com/prnvbn/clocks/internal/tmz"
 )
 
@@ -92,4 +95,22 @@ func (s *SortedClockConfigs) Remove(toRemove ...ClockConfig) {
 	*s = slices.DeleteFunc(*s, func(cfg ClockConfig) bool {
 		return slices.Contains(toRemove, cfg)
 	})
+}
+
+func (s SortedClockConfigs) Filter(searchTerm string) (filtered SortedClockConfigs, n int) {
+	filtered = slices.Collect(s.fuzzyFiltered(searchTerm))
+	n = len(filtered)
+	return
+}
+
+func (s SortedClockConfigs) fuzzyFiltered(searchTerm string) iter.Seq[ClockConfig] {
+	return func(yield func(ClockConfig) bool) {
+		for _, clockCfg := range s {
+			if match.Fuzzy(strings.ToLower(searchTerm), strings.ToLower(clockCfg.Heading)) {
+				if !yield(clockCfg) {
+					return
+				}
+			}
+		}
+	}
 }

@@ -42,7 +42,6 @@ func ShowClocks(appCfg AppConfig) {
 		}
 
 		time.Sleep(time.Second)
-
 	}
 }
 
