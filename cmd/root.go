@@ -29,9 +29,10 @@ var (
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
-		Use:               "clocks",
+		Use:               "clocks [CLOCK_NAME?]",
 		Short:             "A tool to display time across multiple timezones.",
 		PersistentPreRunE: loadConfig,
+		Args:              cobra.MaximumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			if clocksAbsent() {
 				return
@@ -51,6 +52,22 @@ var (
 
 			if twelveHr {
 				cfg.TwelveHour = true
+			}
+		
+			if len(args) >= 1 {
+				// when a @search term is passed, set layout to horizontal
+				// so that all clocks are displayed in one row
+				// clocks are filtered by the search term 
+				// fuzzy search is used to match the search term
+				searchTerm := args[0]
+				cfg.Layout.LayoutType = ui.Horizontal
+
+				n := 0
+				cfg.ClockCfgs, n = cfg.ClockCfgs.Filter(searchTerm)
+				if n == 0 {
+					pterm.FgYellow.Println("No clocks match the search term:", searchTerm)
+					return
+				}
 			}
 
 			ui.ShowClocks(cfg)
@@ -152,7 +169,6 @@ func addFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
 	cmd.Flags().BoolVarP(&seconds, "seconds", "s", false, "shows seconds as well")
 	cmd.Flags().BoolVar(&twelveHr, "t12", false, "print dates in 12 hour format")
-
 }
 
 func fatal(err error, fmt string, args ...any) {
