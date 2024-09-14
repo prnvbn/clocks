@@ -3,10 +3,12 @@ package ui
 import (
 	"encoding/json"
 	"fmt"
+	"iter"
 	"slices"
 	"strings"
 
-	"github.com/lithammer/fuzzysearch/fuzzy"
+
+	"github.com/prnvbn/clocks/internal/match"
 	"github.com/prnvbn/clocks/internal/tmz"
 )
 
@@ -97,12 +99,19 @@ func (s *SortedClockConfigs) Remove(toRemove ...ClockConfig) {
 }
 
 func (s SortedClockConfigs) Filter(searchTerm string) (filtered SortedClockConfigs, n int) {
-	filtered = make(SortedClockConfigs, 0, len(s))
-	for _, clockCfg := range s {
-		if fuzzy.Match(strings.ToLower(searchTerm), strings.ToLower(clockCfg.Heading)) {
-			filtered = append(filtered, clockCfg)
-			n++
+	filtered = slices.Collect(s.fuzzyFiltered(searchTerm))
+	n = len(filtered)
+	return
+}
+
+func (s SortedClockConfigs) fuzzyFiltered(searchTerm string) iter.Seq[ClockConfig] {
+	return func(yield func(ClockConfig) bool) {
+		for _, clockCfg := range s {
+			if match.Fuzzy(strings.ToLower(searchTerm), strings.ToLower(clockCfg.Heading)) {
+				if !yield(clockCfg) {
+					return
+				}
+			}
 		}
 	}
-	return
 }

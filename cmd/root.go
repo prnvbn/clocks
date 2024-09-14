@@ -29,7 +29,7 @@ var (
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
-		Use:               "clocks [CLOCK_NAME?]",
+		Use:               "clocks [FUZZY_CLOCK_NAME?]",
 		Short:             "A tool to display time across multiple timezones.",
 		PersistentPreRunE: loadConfig,
 		Args:              cobra.MaximumNArgs(1),
@@ -69,6 +69,23 @@ var (
 					return
 				}
 			}
+
+			if len(args) >= 1 {
+				// when a @search term is passed, set layout to horizontal
+				// so that all clocks are displayed in one row
+				// clocks are filtered by the search term
+				// fuzzy search is used to match the search term
+				searchTerm := args[0]
+				cfg.Layout.LayoutType = ui.Horizontal
+
+				n := 0
+				cfg.ClockCfgs, n = cfg.ClockCfgs.Filter(searchTerm)
+				if n == 0 {
+					pterm.FgYellow.Println("No clocks match the search term:", searchTerm)
+					return
+				}
+			}
+
 
 			ui.ShowClocks(cfg)
 		},

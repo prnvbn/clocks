@@ -7,7 +7,6 @@ import (
 
 	"github.com/prnvbn/clocks/internal/tmz"
 	"github.com/pterm/pterm"
-	"golang.org/x/exp/maps"
 	"golang.org/x/term"
 )
 
@@ -15,8 +14,9 @@ const (
 	minMaxHeight = 5
 )
 
-func SelectClocks() []ClockConfig {
-	cntries := maps.Keys(tmz.CountryZonesMap)
+func SelectClocks(searchTerm string) []ClockConfig {
+	cntries := slices.Collect(tmz.FilteredCountries(searchTerm))
+
 	slices.Sort(cntries)
 
 	cntryMenuHeading := pterm.ThemeDefault.PrimaryStyle.Sprint("Please select countries; you can select the timezones after this ") + pterm.ThemeDefault.SecondaryStyle.Sprint("[type to search]")
