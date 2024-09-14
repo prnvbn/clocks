@@ -23,4 +23,14 @@ jobs:
           version: latest
           args: --timeout=2m --verbose
 
-          
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "stable"
+      - name: Run tests
+        run: go test -v ./...
