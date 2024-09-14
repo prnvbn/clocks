@@ -3,6 +3,7 @@ package ui
 import (
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
 )
@@ -13,7 +14,11 @@ var dateFmt = "15:04"
 
 func ShowClocks(appCfg AppConfig) {
 	area, _ := pterm.DefaultArea.Start()
-	defer area.Stop()
+	defer func() {
+		if err := area.Stop(); err != nil {
+			panic(errors.Wrap(err, "failed to stop pterm area"))
+		}
+	}()
 
 	if appCfg.TwelveHour {
 		dateFmt = "3:04"
