@@ -18,7 +18,6 @@ var addCmd = &cobra.Command{
 
 		newNumClocks := len(cfg.ClockCfgs)
 		pterm.FgGreen.Println("Added", newNumClocks-oldNumClocks, "new clock(s)")
-
 		printLayoutWarning()
 	},
 }

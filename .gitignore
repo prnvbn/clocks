@@ -7,3 +7,6 @@ config.yaml
 
 # build
 dist/
+
+# binary
+clocks

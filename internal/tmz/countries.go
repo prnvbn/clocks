@@ -2,7 +2,15 @@ package tmz
 
 // CountryZonesMap is a map of countries to the timezones they have.
 // generated using: https://gist.github.com/prnvbn/487507ce1caa2f160e54e0d6e0eab717
+//
+// Additional Timezones added manually
 var CountryZonesMap = map[string][]Zone{
+	"GMT":                                    {"Africa/Abidjan", "Africa/Accra", "Atlantic/Reykjavik"},
+	"UTC":                                    {"Africa/Abidjan", "Africa/Accra", "Atlantic/Reykjavik"},
+	"IST":                                    {"Asia/Kolkata"},
+	"CET":                                    {"Europe/Paris", "Europe/Berlin", "Europe/Rome"},
+	"CDT":                                    {"America/Chicago", "America/Mexico_City"},
+	"PT":                                     {"America/Los_Angeles", "America/Vancouver"},
 	"Aruba":                                  {"America/Aruba"},
 	"Afghanistan":                            {"Asia/Kabul"},
 	"Angola":                                 {"Africa/Luanda"},
