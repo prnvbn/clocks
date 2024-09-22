@@ -1,28 +1,30 @@
 #!/bin/bash
+set -eou pipefail
 
-SUPPORTED_PLATFORMS=("linux-arm64" "linux-amd64" "darwin")
+platform=$(uname -ms)
 
-# check if platform is set
-if [ -z "$PLATFORM" ]; then
-    echo "Error: PLATFORM not set."
-    exit 1
-fi
+target_platform=""
+case $platform in
+    'Darwin x86_64')
+        target_platform=darwin-amd64
+    ;;
+    'Darwin arm64')
+        target_platform=darwin-arm64
+    ;;
+    'Linux aarch64' | 'Linux arm64')
+        target_platform=linux-arm64
+    ;;
+    'Linux x86_64')
+        target_platform=linux-amd64
+    ;;
+    *)
+        echo "The installer script doesn't support ${platform}"
+        echo "please open an issue - https://github.com/prnvbn/clocks/issues/new"
+        exit 1
+    ;;
+esac
 
-# Check if the platform is supported
-supported=false
-for supported_platform in "${SUPPORTED_PLATFORMS[@]}"; do
-    if [ "$PLATFORM" == "$supported_platform" ]; then
-        supported=true
-    fi
-done
-
-if [ "$supported" == "false" ]; then
-    echo "Error: Platform '$PLATFORM' not supported."
-    echo "Supported platforms:" "${SUPPORTED_PLATFORMS[@]}"
-    exit 1
-fi
-
-echo "Downloading the clocks binary for $PLATFORM"
+echo "Downloading the clocks binary for $target_platform"
 echo "This may take a few seconds..."
 
 
@@ -30,7 +32,13 @@ curl -s https://api.github.com/repos/prnvbn/clocks/releases/latest \
 | grep "browser_download_url" \
 | cut -d : -f 2,3 \
 | tr -d \" \
-| grep "$PLATFORM" \
+| grep "$target_platform" \
 | xargs -I{} curl -o clocks -sL {}
 
 chmod +x clocks
+
+
+echo "The clocks binary has been installed in in the current directory - $(pwd)"
+echo "You can add the directory to your PATH"
+
+echo "to enable command auto completion - https://github.com/prnvbn/clocks?tab=readme-ov-file#installation"

@@ -6,21 +6,40 @@ clocks is a command line tool for displaying multiple clocks in your terminal. I
 
 ## Installation
 
-### Unix like systems
+### Linux or MacOS
 
-You can install the latest version of clocks by running the following command in your terminal. Remember to replace `<PLATFORM>` with your platform (linux-arm64, linux-amd64 or darwin).
+You can install the latest version of clocks by running the following command in your terminal.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh | PLATFORM=<PLATFORM> bash
+curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh | bash
 ```
 
 or using wget:
 
 ```bash
-wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  PLATFORM=<PLATFORM> bash
+wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  bash
 ```
 
 Move the binary to a directory in your PATH. For e.g. `/usr/local/bin` on linux.
+
+#### Autocomplete
+
+To enable autocomplete, add the following to your `.bashrc` or `.bash_profile` file:
+
+```bash
+# you can also generate completions for zsh and fish shells by replacing bash with zsh or fish
+source <(clocks completion bash)
+```
+
+> NOTE: dont forget to restart your terminal or run `source ~/.bashrc`
+
+If you want use an alias for clocks, you can add the following to your `.bashrc` or `.bash_profile` file:
+
+```bash
+alias c=clocks
+source <(clocks completion bash | sed 's/clocks/c/g')
+```
+
 
 ### Windows
 
