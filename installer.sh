@@ -37,8 +37,12 @@ curl -s https://api.github.com/repos/prnvbn/clocks/releases/latest \
 
 chmod +x clocks
 
+sep="-------------------------------------------------------------------"
 
+echo $sep
 echo "The clocks binary has been installed in in the current directory - $(pwd)"
 echo "You can add the directory to your PATH"
 
-echo "to enable command auto completion - https://github.com/prnvbn/clocks?tab=readme-ov-file#installation"
+echo "To enable command auto completion for clocks referr to - https://github.com/prnvbn/clocks/tree/main?tab=readme-ov-file#enabling-command-autocompletion"
+
+echo $sep
