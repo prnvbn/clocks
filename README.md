@@ -22,7 +22,7 @@ wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  
 
 Move the binary to a directory in your PATH. For e.g. `/usr/local/bin` on linux.
 
-#### Autocomplete
+#### Enabling Command Autocompletion
 
 To enable autocomplete, add the following to your `.bashrc` or `.bash_profile` file:
 
