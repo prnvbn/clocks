@@ -7,7 +7,6 @@ import (
 	"slices"
 	"strings"
 
-
 	"github.com/prnvbn/clocks/internal/match"
 	"github.com/prnvbn/clocks/internal/tmz"
 )
@@ -98,9 +97,14 @@ func (s *SortedClockConfigs) Remove(toRemove ...ClockConfig) {
 	})
 }
 
-func (s SortedClockConfigs) Filter(searchTerm string) (filtered SortedClockConfigs, n int) {
-	filtered = slices.Collect(s.fuzzyFiltered(searchTerm))
-	n = len(filtered)
+func (s SortedClockConfigs) Filter(searchTerms ...string) (filtered SortedClockConfigs, n int) {
+	filtered = make(SortedClockConfigs, 0)
+
+	for _, st := range searchTerms {
+		x := slices.Collect(s.fuzzyFiltered(st))
+		filtered = append(filtered, x...)
+		n += len(filtered)
+	}
 	return
 }
 
