@@ -5,9 +5,9 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func EditClocks(ClockCfgs SortedClockConfigs) {
+func EditClocks(clockCfgs ClockConfigs) {
 	clockCfg, _ := pterm.NewGenericInteractiveSelect[ClockConfig]().
-		WithOptions(ClockCfgs).
+		WithOptions(clockCfgs.Slice()).
 		WithDefaultText("Select a clock to edit").
 		WithMaxHeight(maxHeight()).
 		WithFilter(false).
@@ -18,11 +18,11 @@ func EditClocks(ClockCfgs SortedClockConfigs) {
 		}).
 		Show()
 
-	ClockCfgs.Remove(clockCfg)
+	clockCfgs.Remove(clockCfg)
 	log.Debug().Msgf("Removed %s", clockCfg)
 
 	editClockConfig(&clockCfg)
-	ClockCfgs.Add(clockCfg)
+	clockCfgs.Add(clockCfg)
 	log.Debug().Msgf("Added %s", clockCfg)
 }
 

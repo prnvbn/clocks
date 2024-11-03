@@ -100,12 +100,13 @@ func showAsMultipleTables(appCfg AppConfig) string {
 // The row is created from the clock configs in CLOCK_CFGS
 // The row is created starting from the clock at index CLOCK_INDEX
 // The clock index is incremented by the number of clocks in the row
-func makeRow(rowSize int, clockCfgs SortedClockConfigs, clockIndex *int) []string {
+func makeRow(rowSize int, clockCfgSet ClockConfigs, clockIndex *int) []string {
 	// only allocate capacity for the number of clocks in the row
 	// this is because the number of clocks in this is less than
 	// or equal to row size specified by the layout
 	row := make([]string, 0, rowSize)
 
+	clockCfgs := clockCfgSet.Slice()
 	for j := 0; j < rowSize; j++ {
 		if *clockIndex == len(clockCfgs) {
 			break

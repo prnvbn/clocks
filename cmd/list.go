@@ -17,7 +17,7 @@ var listCmd = &cobra.Command{
 		}
 
 		bulletListItems := make([]pterm.BulletListItem, len(cfg.ClockCfgs))
-		for i, clockCfg := range cfg.ClockCfgs {
+		for i, clockCfg := range cfg.ClockCfgs.Sorted() {
 			colorStyle := clockCfg.Color.ToStyle()
 			bulletListItems[i] = pterm.BulletListItem{
 				Level:       0,

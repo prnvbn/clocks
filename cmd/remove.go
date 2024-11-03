@@ -24,7 +24,7 @@ var (
 				return
 			}
 
-			clockCfgs := ui.SelectClockConfigs(cfg.ClockCfgs)
+			clockCfgs := ui.SelectClockConfigs(cfg.ClockCfgs.Slice())
 			cfg.ClockCfgs.Remove(clockCfgs...)
 			pterm.FgGreen.Println("Removed", len(clockCfgs), "clock(s)")
 		},

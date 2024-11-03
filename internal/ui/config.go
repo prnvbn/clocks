@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"iter"
+	"maps"
 	"slices"
 	"strings"
 
@@ -12,11 +13,11 @@ import (
 )
 
 type AppConfig struct {
-	Layout     LayoutConfig       `yaml:"layout" json:"layout"`
-	ClockCfgs  SortedClockConfigs `yaml:"clocks" json:"clocks"`
-	Live       bool               `yaml:"live" json:"live"`
-	Seconds    bool               `yaml:"seconds" json:"seconds"`
-	TwelveHour bool               `yaml:"twelveHour" json:"twelveHour"`
+	Layout     LayoutConfig `yaml:"layout" json:"layout"`
+	ClockCfgs  ClockConfigs `yaml:"clocks" json:"clocks"`
+	Live       bool         `yaml:"live" json:"live"`
+	Seconds    bool         `yaml:"seconds" json:"seconds"`
+	TwelveHour bool         `yaml:"twelveHour" json:"twelveHour"`
 }
 
 type LayoutConfig struct {
@@ -77,40 +78,73 @@ func (c AppConfig) PrettyPrint() error {
 	return nil
 }
 
-// SortedClockConfigs is a slice of ClockConfigs
-// This slice is always sorted based on the UTC offset of the zones
-type SortedClockConfigs []ClockConfig
+// ClockConfigs is a set of ClockConfigs
+type ClockConfigs map[ClockConfig]struct{}
 
-func (s *SortedClockConfigs) Add(clockCfgs ...ClockConfig) {
-	for _, clockCfg := range clockCfgs {
-		*s = append(*s, clockCfg)
+func (s *ClockConfigs) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	// Unmarshal into a temporary slice of strings
+	var items []ClockConfig
+	if err := unmarshal(&items); err != nil {
+		return err
 	}
-	// sort by zone
-	slices.SortFunc(*s, func(a, b ClockConfig) int {
+
+	// Initialize the StringSet map
+	*s = make(ClockConfigs)
+	for _, item := range items {
+		(*s)[item] = struct{}{}
+	}
+
+	return nil
+}
+
+func (s ClockConfigs) Slice() []ClockConfig {
+	return slices.Collect(maps.Keys(s))
+}
+
+func (s ClockConfigs) Sorted() iter.Seq2[int, ClockConfig] {
+	ccfgs := slices.Collect(maps.Keys(s))
+	slices.SortFunc(ccfgs, func(a, b ClockConfig) int {
 		return a.Zone.Compare(b.Zone)
 	})
+
+	return func(yield func(int, ClockConfig) bool) {
+		for i, ccfg := range ccfgs {
+			if !yield(i, ccfg) {
+				return
+			}
+		}
+	}
 }
 
-func (s *SortedClockConfigs) Remove(toRemove ...ClockConfig) {
-	*s = slices.DeleteFunc(*s, func(cfg ClockConfig) bool {
-		return slices.Contains(toRemove, cfg)
-	})
+func (s ClockConfigs) Add(clockCfgs ...ClockConfig) {
+	for _, clockCfg := range clockCfgs {
+		s[clockCfg] = struct{}{}
+	}
 }
 
-func (s SortedClockConfigs) Filter(searchTerms ...string) (filtered SortedClockConfigs, n int) {
-	filtered = make(SortedClockConfigs, 0)
+func (s ClockConfigs) Remove(toRemove ...ClockConfig) {
+	for _, toRm := range toRemove {
+		delete(s, toRm)
+	}
+}
+
+func (s ClockConfigs) Filter(searchTerms ...string) (filtered ClockConfigs, n int) {
+	filtered = make(ClockConfigs, 0)
 
 	for _, st := range searchTerms {
-		x := slices.Collect(s.fuzzyFiltered(st))
-		filtered = append(filtered, x...)
+		for ccfg := range s.fuzzyFiltered(st) {
+			filtered[ccfg] = struct{}{}
+		}
+
 		n += len(filtered)
 	}
+
 	return
 }
 
-func (s SortedClockConfigs) fuzzyFiltered(searchTerm string) iter.Seq[ClockConfig] {
+func (s ClockConfigs) fuzzyFiltered(searchTerm string) iter.Seq[ClockConfig] {
 	return func(yield func(ClockConfig) bool) {
-		for _, clockCfg := range s {
+		for clockCfg := range s {
 			if match.Fuzzy(strings.ToLower(searchTerm), strings.ToLower(clockCfg.Heading)) {
 				if !yield(clockCfg) {
 					return
