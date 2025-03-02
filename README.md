@@ -11,13 +11,7 @@ clocks is a command line tool for displaying multiple clocks in your terminal. I
 You can install the latest version of clocks by running the following command in your terminal.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh | bash
-```
-
-or using wget:
-
-```bash
-wget -qO - https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh |  bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/installer.sh)"
 ```
 
 Move the binary to a directory in your PATH. For e.g. `/usr/local/bin` on linux.
@@ -59,7 +53,7 @@ To list all clocks without the time, run `clocks list`.
 
 ### Layouts
 
-Use the `clocks layout` comand to change the layout of the clocks.
+Use the `clocks layout` command to change the layout of the clocks.
 
 - Custom (Grid)
 
