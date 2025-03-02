@@ -41,7 +41,7 @@ func SelectClocks(searchTerm string) []ClockConfig {
 	for i, z := range selectedZones {
 		clockCfg := ClockConfig{
 			Zone:    z,
-			Heading: z.City(),
+			Heading: z.City() + ", " + z.Country(),
 		}
 		editClockConfig(&clockCfg)
 

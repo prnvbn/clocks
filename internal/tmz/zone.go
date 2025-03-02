@@ -25,6 +25,13 @@ func (l Zone) City() string {
 	return strings.Replace(parts[len(parts)-1], "_", " ", -1)
 }
 
+// Country returns the city for the given location
+// e.g. "America/New_York" -> "America",  "America/Argentina/Catamarca" -> "America"
+func (l Zone) Country() string {
+	parts := strings.Split(string(l), "/")
+	return strings.Replace(parts[0], "_", " ", -1)
+}
+
 // GetUTCOffset returns the UTC offset for the given location
 func (l Zone) GetUTCOffset() string {
 	loc, _ := time.LoadLocation(string(l)) // add err check?
