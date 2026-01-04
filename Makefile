@@ -1,5 +1,4 @@
-.PHONY : dist windows darwin linux-arm64 linux-amd64 clean
-
+.PHONY : dist windows darwin-amd64 darwin-arm64 linux-arm64 linux-amd64 clean
 DIST_DIR="dist"
 ZIP="zip -m"
 
@@ -11,7 +10,6 @@ dist:
 	mkdir -p $(DIST_DIR)
 	$(MAKE) windows darwin-arm64 darwin-amd64 linux-arm64 linux-amd64
 
-.PHONY= build-windows
 windows:
 	CGO_ENABLED=0 GOOS=windows \
 	go build $(BUILD_FLAGS) -o $(DIST_DIR)/clocks-windows.exe
