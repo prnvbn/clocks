@@ -16,6 +16,20 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/prnvbn/clocks/main/insta
 
 Move the binary to a directory in your PATH. For e.g. `/usr/local/bin` on linux.
 
+### via `homebrew`
+
+You can install `clocks` using the [prnvbn/homebrew-tap](https://github.com/prnvbn/homebrew-tap).
+
+```bash
+brew install prnvbn/tap/clocks
+```
+
+### via `go install`
+
+```bash
+go install github.com/prnvbn/clocks@latest
+```
+
 #### Enabling Command Autocompletion
 
 To enable autocomplete, add the following to your `.bashrc` or `.bash_profile` file:
@@ -33,11 +47,6 @@ If you want use an alias for clocks, you can add the following to your `.bashrc`
 alias c=clocks
 source <(clocks completion bash | sed 's/clocks/c/g')
 ```
-
-
-### Windows
-
-Windows installation instructions are a WIP. In the meantime, you can download the latest release from the [releases page](https://github.com/prnvbn/clocks/releases)
 
 ## Getting Started
 
