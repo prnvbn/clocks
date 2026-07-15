@@ -63,6 +63,7 @@ To list all clocks without the time, run `clocks list`.
 ### Layouts
 
 Use the `clocks layout` command to change the layout of the clocks.
+Use `clocks --horizontal` (or `clocks -H`) to display all clocks in one row for a single run, or `clocks --vertical` (or `clocks -V`) to display them in one column. These flags override the configured layout without changing it.
 
 - Custom (Grid)
 

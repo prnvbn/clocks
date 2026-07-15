@@ -21,11 +21,13 @@ const (
 
 var (
 	// flags
-	cfgPath  string
-	debug    bool
-	live     bool
-	seconds  bool
-	twelveHr bool
+	cfgPath    string
+	debug      bool
+	live       bool
+	seconds    bool
+	twelveHr   bool
+	horizontal bool
+	vertical   bool
 
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
@@ -35,11 +37,6 @@ var (
 		Args:              cobra.MinimumNArgs(0),
 		Run: func(cmd *cobra.Command, args []string) {
 			if clocksAbsent() {
-				return
-			}
-
-			if printLayoutWarning() {
-				pterm.FgRed.Println("Can not display all clocks with current layout.")
 				return
 			}
 
@@ -55,18 +52,26 @@ var (
 			}
 
 			if len(args) >= 1 {
-				// when a @search term is passed, set layout to horizontal
-				// so that all clocks are displayed in one row
 				// clocks are filtered by the search term
 				// fuzzy search is used to match the search term
-				cfg.Layout.LayoutType = ui.Horizontal
-
 				n := 0
 				cfg.ClockCfgs, n = cfg.ClockCfgs.Filter(args...)
 				if n == 0 {
 					pterm.FgYellow.Printf("No clocks match the search terms: %#v", args)
 					return
 				}
+			}
+
+			switch {
+			case vertical:
+				cfg.Layout = ui.NewVerticalLayout(len(cfg.ClockCfgs))
+			case horizontal || len(args) >= 1:
+				cfg.Layout = ui.NewHorizontalLayout(len(cfg.ClockCfgs))
+			}
+
+			if printLayoutWarning() {
+				pterm.FgRed.Println("Can not display all clocks with current layout.")
+				return
 			}
 
 			ui.ShowClocks(cfg)
@@ -149,7 +154,6 @@ func Execute() {
 }
 
 func init() {
-
 	var ok bool
 	cfgPath, ok = os.LookupEnv("CLOCKS_CONFIG_PATH")
 	if !ok {
@@ -162,6 +166,9 @@ func init() {
 	_ = rootCmd.PersistentFlags().MarkHidden("config")
 
 	addFlags(rootCmd)
+	rootCmd.Flags().BoolVarP(&horizontal, "horizontal", "H", false, "displays all clocks in one row")
+	rootCmd.Flags().BoolVarP(&vertical, "vertical", "V", false, "displays all clocks in one column")
+	rootCmd.MarkFlagsMutuallyExclusive("horizontal", "vertical")
 }
 
 func addFlags(cmd *cobra.Command) {
