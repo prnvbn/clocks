@@ -1,0 +1,63 @@
+set timeout 20
+set stty_init "rows $env(CLOCKS_DEMO_ROWS) columns $env(CLOCKS_DEMO_COLS)"
+match_max -d 1000000
+
+proc prompt {} {
+    expect {
+        -re {\$ $} {}
+        timeout { exit 1 }
+        eof { exit 1 }
+    }
+}
+
+proc type_command {command} {
+    foreach char [split $command ""] {
+        send -- $char
+        expect {
+            -exact $char {}
+            timeout { exit 1 }
+            eof { exit 1 }
+        }
+        sleep 0.055
+    }
+    sleep 0.3
+    send "\r"
+}
+
+proc clear_screen {} {
+    send "clear\r"
+    prompt
+    sleep 0.3
+}
+
+set bin_dir [file dirname $env(CLOCKS_DEMO_BIN)]
+spawn -noecho env -u NO_COLOR TERM=xterm-256color COLORTERM=truecolor \
+    "PATH=$bin_dir:$env(PATH)" {PS1=$ } {PROMPT_COMMAND=} \
+    bash --noprofile --norc -i
+prompt
+clear_screen
+
+type_command "clocks"
+prompt
+sleep 2.5
+
+clear_screen
+type_command "clocks london"
+prompt
+sleep 2
+
+clear_screen
+type_command "clocks --live --seconds london abu"
+expect {
+    "London, UK" {}
+    timeout { exit 1 }
+}
+# Keep reading so the live updates are recorded as they happen.
+set timeout 5
+expect { timeout {} }
+send "\003"
+set timeout 20
+prompt
+sleep 1
+send "exit\r"
+expect eof

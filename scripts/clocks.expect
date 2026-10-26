@@ -1,0 +1,38 @@
+set timeout 20
+set stty_init "rows $env(CLOCKS_DEMO_ROWS) columns $env(CLOCKS_DEMO_COLS)"
+match_max -d 1000000
+
+send_user "\r\n$ clocks"
+foreach char [split $env(CLOCKS_DEMO_ARGS) ""] {
+    if {![info exists started]} {
+        send_user " "
+        set started 1
+    }
+    send_user -- $char
+    sleep 0.05
+}
+send_user "\r\n\r\n"
+send_user "\033\[?25l"
+
+set command [list env -u NO_COLOR TERM=xterm-256color COLORTERM=truecolor $env(CLOCKS_DEMO_BIN)]
+if {$env(CLOCKS_DEMO_ARGS) ne ""} {
+    lappend command $env(CLOCKS_DEMO_ARGS)
+}
+# Buffer the short, real terminal output, then display it one line at a time.
+# This keeps a one-shot command from outrunning agg's frame limit.
+log_user 0
+spawn -noecho {*}$command
+expect {
+    eof {}
+    timeout { exit 1 }
+}
+set output $expect_out(buffer)
+set result [wait]
+if {[lindex $result 2] != 0 || [lindex $result 3] != 0} {
+    exit 1
+}
+foreach line [split [string trimright $output "\r\n"] "\n"] {
+    send_user -- "$line\n"
+    sleep 0.08
+}
+sleep 1

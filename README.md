@@ -2,7 +2,7 @@
 
 clocks is a command line tool for displaying multiple clocks in your terminal. It allows you to configure multiple clocks and display them in a single view. You can give different timezone clocks different colors to allow for easy distinction. You can also configure your preferred layout.
 
-![image](https://github.com/prnvbn/clocks/assets/55818107/29f6a1b8-e2f0-472f-969c-1148ffe3e72c)
+![Terminal demo showing clocks, filtering by city, and live updates with seconds](demo/clocks-demo.gif)
 
 ## Installation
 
@@ -71,17 +71,20 @@ Use `clocks --horizontal` (or `clocks -H`) to display all clocks in one row for 
 
 - Custom (Centered)
 
-  ![image](https://github.com/prnvbn/clocks/assets/55818107/ab20d59a-b7a1-4691-b030-b3be31a8fe6a)
+  ![Three clocks with each row centered independently](demo/layout-centered.png)
 
 ### Seconds mode
 
 To also see the seconds value, run `clocks --seconds`. To persist this setting, run `clocks set --seconds`. This setting can be reversed by running `clocks unset --seconds`.
-![image](https://github.com/prnvbn/clocks/assets/55818107/94cef848-952a-4526-b4ee-2193e3219100)
+![Clocks showing seconds and AM/PM indicators](demo/seconds.png)
 
-### 12 hour mode
+### 24 hour mode
 
-To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
-![image](https://github.com/prnvbn/clocks/assets/55818107/13a160a8-c442-477c-be01-7b58df9e99b2)
+To use 24 hour time, run `clocks unset --t12`, then run `clocks`. This saves your preference and removes the AM/PM indicators.
+
+New configs use 12 hour time by default. Run `clocks set --t12` to switch back, or `clocks --t12` to use 12 hour time for one run.
+
+![London and New York clocks showing 24 hour time](demo/twenty-four-hour.png)
 
 ### Live mode
 
@@ -89,7 +92,7 @@ To keep the clocks running and updating in real time, run `clocks --live`. To pe
 
 ## Configuration
 
-clocks is configured by a YAML file that will be auto-generated on first run. By default, the config file is assumed to exist on an [XDG-compliant](https://en.wikipedia.org/wiki/Freedesktop.org) configuration path like `~/.config/clocks/config.yaml`. If you would like to store it elsewhere, you may export a `CLOCKS_CONFIG_PATH` environment variable that specifies its path:
+clocks is configured by a YAML file that will be auto-generated on first run with `twelveHour: true`. Existing configs keep their settings. By default, the config file is stored at `$XDG_CONFIG_HOME/clocks/config.yaml` when `XDG_CONFIG_HOME` is set, or `~/.config/clocks/config.yaml` on Linux and `~/Library/Application Support/clocks/config.yaml` on macOS. Run `clocks config` to see its path and contents. If you would like to store it elsewhere, you may export a `CLOCKS_CONFIG_PATH` environment variable that specifies its path:
 
 ```bash
 export CLOCKS_CONFIG_PATH="<NEW_CONFIG_PATH>"
