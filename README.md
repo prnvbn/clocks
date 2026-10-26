@@ -83,8 +83,6 @@ To also see the seconds value, run `clocks --seconds`. To persist this setting, 
 To display the time in 12 hour format, run `clocks --t12`. To persist this setting, run `clocks set --t12`. This setting can be reversed by running `clocks unset --t12`.
 ![image](https://github.com/prnvbn/clocks/assets/55818107/13a160a8-c442-477c-be01-7b58df9e99b2)
 
-Note that additional work to display AM/PM on the clock face as well
-
 ### Live mode
 
 To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
