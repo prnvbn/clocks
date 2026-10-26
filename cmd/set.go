@@ -15,14 +15,20 @@ var (
 		Short:    "Permanently set flags for the 'clocks' command",
 		PostRunE: saveConfig,
 		Run: func(cmd *cobra.Command, args []string) {
-			if !live && !seconds && !twelveHr {
+			if !liveChanged && !secondsChanged && !twelveHrChanged {
 				pterm.FgRed.Println("please pass a valid flag")
 				return
 			}
 
-			cfg.Live = live
-			cfg.Seconds = seconds
-			cfg.TwelveHour = twelveHr
+			if liveChanged {
+				cfg.Live = live
+			}
+			if secondsChanged {
+				cfg.Seconds = seconds
+			}
+			if twelveHrChanged {
+				cfg.TwelveHour = twelveHr
+			}
 
 			pterm.FgGreen.Println("config updated accordingly!")
 		},

@@ -29,6 +29,10 @@ var (
 	horizontal bool
 	vertical   bool
 
+	liveChanged     bool
+	secondsChanged  bool
+	twelveHrChanged bool
+
 	cfg     ui.AppConfig
 	rootCmd = &cobra.Command{
 		Use:               "clocks [FUZZY_CLOCK_NAME]+",
@@ -82,6 +86,11 @@ var (
 // loadConfig loads the config from cfgPath
 // If the config does not exist, it creates a new one
 func loadConfig(cmd *cobra.Command, args []string) error {
+	liveChanged = cmd.Flags().Changed("live")
+	secondsChanged = cmd.Flags().Changed("seconds")
+	twelveHrChanged = cmd.Flags().Changed("t12")
+
+	cfg = ui.DefaultAppConfig()
 	yamlBytes, err := os.ReadFile(cfgPath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -91,6 +100,7 @@ func loadConfig(cmd *cobra.Command, args []string) error {
 
 			err = saveConfig(cmd, args)
 			fatal(err, "error saving config file at %s", cfgPath)
+			return nil
 		}
 		return err
 	}
@@ -174,7 +184,7 @@ func init() {
 func addFlags(cmd *cobra.Command) {
 	cmd.Flags().BoolVarP(&live, "live", "l", false, "keeps clocks on screen")
 	cmd.Flags().BoolVarP(&seconds, "seconds", "s", false, "shows seconds as well")
-	cmd.Flags().BoolVar(&twelveHr, "t12", false, "print dates in 12 hour format")
+	cmd.Flags().BoolVar(&twelveHr, "t12", false, "display time in 12 hour format with am/pm")
 }
 
 func fatal(err error, fmt string, args ...any) {

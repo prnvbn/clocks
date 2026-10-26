@@ -19,6 +19,11 @@ type AppConfig struct {
 	TwelveHour bool               `yaml:"twelveHour" json:"twelveHour"`
 }
 
+// DefaultAppConfig returns the initial settings for clocks.
+func DefaultAppConfig() AppConfig {
+	return AppConfig{TwelveHour: true}
+}
+
 type LayoutConfig struct {
 	LayoutType    LayoutType `yaml:"layoutType" json:"layoutType"`
 	RowSizes      []int      `yaml:"rowSizes" json:"rowSizes"`

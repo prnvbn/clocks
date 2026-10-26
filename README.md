@@ -67,7 +67,7 @@ Use `clocks --horizontal` (or `clocks -H`) to display all clocks in one row for 
 
 - Custom (Grid)
 
-  ![image](https://github.com/prnvbn/clocks/assets/55818107/e0130fea-ffd8-4ea6-8edf-c086c9a4f176)
+  ![Three clocks in a grid with aligned columns](demo/layout-grid.png)
 
 - Custom (Centered)
 
