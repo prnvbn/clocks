@@ -27,7 +27,7 @@ CLOCKS_CONFIG_PATH="$TMP_DIR/defaults.yaml" "$BIN" config >/dev/null
 SETTINGS="$(sed -n '/^live:/,$p' "$TMP_DIR/defaults.yaml")"
 
 if [[ $# -eq 0 ]]; then
-    set -- overview clocks layout-grid layout-centered seconds twenty-four-hour
+    set -- overview clocks layout-horizontal layout-vertical layout-grid layout-centered seconds twenty-four-hour
 fi
 
 for name in "$@"; do
@@ -39,6 +39,8 @@ for name in "$@"; do
     case "$name" in
         overview) ROW_SIZES='[2, 1]' ;;
         clocks) ;;
+        layout-horizontal) ROW_SIZES='[2]'; ROWS=13; ARGS='--horizontal' ;;
+        layout-vertical) ROW_SIZES='[1, 1]'; COLS=70; ARGS='--vertical' ;;
         layout-grid) CENTER=false; ROW_SIZES='[2, 1]' ;;
         layout-centered) ROW_SIZES='[2, 1]' ;;
         seconds) ROW_SIZES='[2]'; ROWS=13; ARGS='--seconds' ;;
@@ -65,7 +67,7 @@ EOF
       color: yellow
 EOF
     fi
-    if [[ "$name" != seconds && "$name" != twenty-four-hour ]]; then
+    if [[ "$name" != seconds && "$name" != twenty-four-hour && "$name" != layout-horizontal && "$name" != layout-vertical ]]; then
         cat >>"$CONFIG" <<'EOF'
     - heading: New Delhi, India
       zone: Asia/Kolkata

@@ -1,6 +1,6 @@
 # clocks
 
-clocks is a command line tool for displaying multiple clocks in your terminal. It allows you to configure multiple clocks and display them in a single view. You can give different timezone clocks different colors to allow for easy distinction. You can also configure your preferred layout.
+clocks displays multiple timezones in your terminal, with customizable colors and layouts.
 
 ![Terminal demo showing clocks, filtering by city, and live updates with seconds](demo/clocks-demo.gif)
 
@@ -50,32 +50,22 @@ source <(clocks completion bash | sed 's/clocks/c/g')
 
 ## Getting Started
 
-Run `clocks add` and follow the prompts to add a clock.
-You can edit a clock at any time by running `clocks edit` and following the prompts.
-The clocks can be displayed by running `clocks`.
-
-You can remove a clock by running `clocks remove` and following the prompts.
-
-To list all clocks without the time, run `clocks list`.
+Run `clocks add` to add a clock, then `clocks` to display your clocks. Use `clocks edit` or `clocks remove` to manage them, and `clocks list` to list them without the time.
 
 ## Additional Features
 
 ### Layouts
 
-Use the `clocks layout` command to change the layout of the clocks.
-Use `clocks --horizontal` (or `clocks -H`) to display all clocks in one row for a single run, or `clocks --vertical` (or `clocks -V`) to display them in one column. These flags override the configured layout without changing it.
+Save a layout with `clocks layout`. Use `--horizontal` (`-H`) or `--vertical` (`-V`) to override it for one run.
 
-- Custom (Grid)
-
-  ![Three clocks in a grid with aligned columns](demo/layout-grid.png)
-
-- Custom (Centered)
-
-  ![Three clocks with each row centered independently](demo/layout-centered.png)
+| Horizontal | Vertical |
+| --- | --- |
+| `clocks --horizontal`<br>![Clocks in one row](demo/layout-horizontal.png) | `clocks --vertical`<br>![Clocks in one column](demo/layout-vertical.png) |
+| **Custom (Grid)**<br>`clocks layout`<br>![Three clocks in a grid with aligned columns](demo/layout-grid.png) | **Custom (Centered)**<br>`clocks layout`<br>![Three clocks with each row centered independently](demo/layout-centered.png) |
 
 ### Seconds mode
 
-To also see the seconds value, run `clocks --seconds`. To persist this setting, run `clocks set --seconds`. This setting can be reversed by running `clocks unset --seconds`.
+Use `clocks --seconds` for one run, `clocks set --seconds` to save it, or `clocks unset --seconds` to disable it.
 ![Clocks showing seconds and AM/PM indicators](demo/seconds.png)
 
 ### 24 hour mode
@@ -88,7 +78,7 @@ New configs use 12 hour time by default. Run `clocks set --t12` to switch back, 
 
 ### Live mode
 
-To keep the clocks running and updating in real time, run `clocks --live`. To persist this setting, run `clocks set --live`. This setting can be reversed by running `clocks unset --live`.
+Use `clocks --live` to keep clocks updating. Save it with `clocks set --live`, or disable it with `clocks unset --live`.
 
 ## Configuration
 
